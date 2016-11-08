@@ -436,84 +436,136 @@ public class Cafe {
    }//end
 
    public static String find_type(Cafe esql){
-      // Your code goes here.
-      // ...
-      // ...
+      try {
+          String query = "";
+	  esql.executeQuery(query);
+      }
+      catch (Exception except) {
+          System.err.println (except.getMessage());
+      }
       return "Employee";
    }
 
    public static void BrowseMenuName(Cafe esql){
-      // Your code goes here.
-      // ...
-      // ...
+      try {
+          String query = "";
+	  esql.executeQuery(query);
+      }
+      catch (Exception except) {
+          System.err.println (except.getMessage());
+      }
    }//end
 
    public static void BrowseMenuType(Cafe esql){
-      // Your code goes here.
-      // ...
-      // ...
+      try {
+          String query = "";
+	  esql.executeQuery(query);
+      }
+      catch (Exception except) {
+          System.err.println (except.getMessage());
+      }
    }//end
 
    public static Integer AddOrder(Cafe esql){
-      // Your code goes here.
-      // ...
-      // ...
+      try {
+          String query = "";
+	  esql.executeQuery(query);
+      }
+      catch (Exception except) {
+          System.err.println (except.getMessage());
+      }
       Integer orderid=0;
       return orderid;
    }//end 
 
    public static void UpdateOrder(Cafe esql){
-      // Your code goes here.
-      // ...
-      // ...
+      try {
+          String query = "";
+	  esql.executeQuery(query);
+      }
+      catch (Exception except) {
+          System.err.println (except.getMessage());
+      }
    }//end
 
    public static void EmployeeUpdateOrder(Cafe esql){
-      // Your code goes here.
-      // ...
-      // ...
+      try {
+          String query = "";
+	  esql.executeQuery(query);
+      }
+      catch (Exception except) {
+          System.err.println (except.getMessage());
+      }
    }//end
 
    public static void ViewOrderHistory(Cafe esql){
-      // Your code goes here.
-      // ...
-      // ...
+      try {
+          String query = "";
+	  esql.executeQuery(query);
+      }
+      catch (Exception except) {
+          System.err.println (except.getMessage());
+      }
    }//end
 
    public static void UpdateUserInfo(Cafe esql){
-      // Your code goes here.
-      // ...
-      // ...
+      try {
+          String query = "";
+	  esql.executeQuery(query);
+      }
+      catch (Exception except) {
+          System.err.println (except.getMessage());
+      }
    }//end
 
    public static void ManagerUpdateUserInfo(Cafe esql){
-      // Your code goes here.
-      // ...
-      // ...
+      try {
+          String query = "";
+	  esql.executeQuery(query);
+      }
+      catch (Exception except) {
+          System.err.println (except.getMessage());
+      }
    }//end
 
    public static void UpdateMenu(Cafe esql){
-      // Your code goes here.
-      // ...
-      // ...
+      try {
+          String query = "";
+	  esql.executeQuery(query);
+      }
+      catch (Exception except) {
+          System.err.println (except.getMessage());
+      }
    }//end
 
    public static void ViewOrderStatus(Cafe esql){
-      // Your code goes here.
-      // ...
-      // ...
+      try {
+          String query = "";
+	  esql.executeQuery(query);
+      }
+      catch (Exception except) {
+          System.err.println (except.getMessage());
+      }
    }//end
 
    public static void ViewCurrentOrder(Cafe esql){
-      // Your code goes here.
-      // ...
-      // ...
+      try {
+          String query = "";
+	  esql.executeQuery(query);
+      }
+      catch (Exception except) {
+          System.err.println (except.getMessage());
+      }
    }//end
 
    public static void Query6(Cafe esql){
-      // Your code goes here.
-      // ...
-      // ...
+      try {
+          String query = "";
+	  esql.executeQuery(query);
+      }
+      catch (Exception except) {
+          System.err.println (except.getMessage());
+      }
    }//end Query6
 
 }//end Cafe
