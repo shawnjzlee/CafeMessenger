@@ -286,7 +286,7 @@ public class Cafe {
                        case 4: UpdateOrder(esql); break;
                        case 5: ViewOrderHistory(esql); break;
                        case 6: ViewOrderStatus(esql); break;
-                       case 7: UpdateUserInfo(esql); break;
+                       case 7: UpdateUserInfo(esql, authorisedUser); break;
                        case 9: usermenu = false; break;
                        default : System.out.println("Unrecognized choice!"); break;
 		      }//end switch
@@ -390,7 +390,7 @@ public class Cafe {
    }//end readChoice
 
    /*
-    * Creates a new user with privided login, passowrd and phoneNum
+    * Creates a new user with privided login, password and phoneNum
     **/
    public static void CreateUser(Cafe esql){
       try{
@@ -508,10 +508,63 @@ public class Cafe {
       }
    }//end
 
-   public static void UpdateUserInfo(Cafe esql){
+   public static void UpdateUserInfo(Cafe esql, String authorisedUser){
       try {
-          String query = "";
-	  esql.executeQuery(query);
+         System.out.println("Please enter the following information to update, press ENTER to skip.");
+         
+         /* Phone Number */
+         String phoneNum;
+         while (phoneNum.length() > 13) {
+            if (phoneNum.length() > 13) {
+               System.out.print("Invalid phone number. ");
+            }
+            System.out.println("Please enter a new phone number: ");
+            phoneNum = in.readLine();
+         }
+         if (phoneNum.length() != 0) {
+            String query = "UPDATE USER SET phoneNum = '%s' WHERE login = '%s', phoneNum, authorisedUser";
+   	      esql.executeQuery(query);
+   	      System.out.println("Updated phone number successfully.");
+         }
+         else { 
+            System.out.println("Phone number not changed.");
+         }
+	      
+	      /* Password */
+	      String password;
+	      while (password.length() > 50) {
+	         if (password.length() > 50) {
+	            System.out.print("Password is too long. ");
+	         }
+	         System.out.println("Please enter a new password: ");
+	         password = in.readLine();
+	      }
+	      if (password.length() != 0) {
+   	      query = "UPDATE USER SET password = '%s' WHERE login = '%s', password, authorisedUser";
+   	      esql.executeQuery(query);
+   	      System.out.println("Updated password successfully.");
+	      }
+	      else {
+	         System.out.println("Password not changed.");
+	      }
+	      
+	      /* Favorite Items */
+	      String favItems;
+	      while (favItems.length() > 400) {
+	         if (favItems.length() > 400) {
+	            System.out.print("Too many favorite items. ");
+	         }
+	         System.out.println("Please enter your favorite items, separated by a comma: ");
+	         favItems = in.readLine();
+	      }
+	      if (favItems.length() != 0) {
+   	      query = "UPDATE USER SET favItems = '%s' WHERE login = '%s', favItems, authorisedUser";
+   	      esql.executeQuery(query);
+   	      System.out.println("Updated favorite items successfully.");
+	      }
+	      else {
+	         System.out.println("Favorite items not changed.");
+	      }
       }
       catch (Exception except) {
           System.err.println (except.getMessage());
