@@ -448,8 +448,11 @@ public class Cafe {
 
    public static void BrowseMenuName(Cafe esql){
       try {
-          String query = "";
-	  esql.executeQuery(query);
+          System.out.print("\tEnter item name: ");
+          String name = in.readLine();
+          String query = "SELECT M.itemName, M.price, M.description FROM Menu M WHERE M.iemName = '";
+          query += name + "';";
+	      esql.executeQuery(query);
       }
       catch (Exception except) {
           System.err.println (except.getMessage());
@@ -458,8 +461,11 @@ public class Cafe {
 
    public static void BrowseMenuType(Cafe esql){
       try {
-          String query = "";
-	  esql.executeQuery(query);
+          System.out.print("\tEnter item type: ");
+          String type = in.readLine();
+          String query = "SELECT M.itemName, M.price, M.description FROM Menu M WHERE M.type = '";
+          query += type + "';";
+	      esql.executeQuery(query);
       }
       catch (Exception except) {
           System.err.println (except.getMessage());
@@ -593,8 +599,11 @@ public class Cafe {
 
    public static void ViewOrderStatus(Cafe esql){
       try {
-          String query = "";
-	  esql.executeQuery(query);
+          System.out.print("\tEnter Order ID: ");
+          String orderID = in.readLine();
+          String query = "SELECT I.status FROM ItemStatus I WHERE I.orderid = ";
+          query += orderID + ";";
+	      esql.executeQuery(query);
       }
       catch (Exception except) {
           System.err.println (except.getMessage());
