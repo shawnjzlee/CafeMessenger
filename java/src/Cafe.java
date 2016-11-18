@@ -311,7 +311,7 @@ public class Cafe {
                        case 4: EmployeeUpdateOrder(esql); break;
                        case 5: ViewCurrentOrder(esql); break;
                        case 6: ViewOrderStatus(esql); break;
-                       case 7: UpdateUserInfo(esql); break;
+                       case 7: UpdateUserInfo(esql, authorisedUser, 0); break;
                        case 9: usermenu = false; break;
                        default : System.out.println("Unrecognized choice!"); break;
 		      }//end switch
@@ -337,7 +337,7 @@ public class Cafe {
                        case 4: EmployeeUpdateOrder(esql); break;
                        case 5: ViewCurrentOrder(esql); break;
                        case 6: ViewOrderStatus(esql); break;
-                       case 7: ManagerUpdateUserInfo(esql); break;
+                       case 7: ManagerUpdateUserInfo(esql, authorisedUser); break;
                        case 8: UpdateMenu(esql); break;
                        case 9: usermenu = false; break;
                        default : System.out.println("Unrecognized choice!"); break;
@@ -508,7 +508,7 @@ public class Cafe {
       }
    }//end
 
-   public static void UpdateUserInfo(Cafe esql, String authorisedUser){
+   public static void UpdateUserInfo(Cafe esql, String authorisedUser, int perm){
       try {
          System.out.println("Please enter the following information to update, press ENTER to skip.");
          
@@ -522,7 +522,7 @@ public class Cafe {
             phoneNum = in.readLine();
          }
          if (phoneNum.length() != 0) {
-            String query = "UPDATE USER SET phoneNum = '%s' WHERE login = '%s', phoneNum, authorisedUser";
+            String query = String.format("UPDATE USER SET phoneNum = '%s' WHERE login = '%s'", phoneNum, authorisedUser);
    	      esql.executeQuery(query);
    	      System.out.println("Updated phone number successfully.");
          }
@@ -540,7 +540,7 @@ public class Cafe {
 	         password = in.readLine();
 	      }
 	      if (password.length() != 0) {
-   	      query = "UPDATE USER SET password = '%s' WHERE login = '%s', password, authorisedUser";
+   	      query = String.format("UPDATE USER SET password = '%s' WHERE login = '%s'", password, authorisedUser);
    	      esql.executeQuery(query);
    	      System.out.println("Updated password successfully.");
 	      }
@@ -558,12 +558,32 @@ public class Cafe {
 	         favItems = in.readLine();
 	      }
 	      if (favItems.length() != 0) {
-   	      query = "UPDATE USER SET favItems = '%s' WHERE login = '%s', favItems, authorisedUser";
+   	      query = String.format("UPDATE USER SET favItems = '%s' WHERE login = '%s'", favItems, authorisedUser);
    	      esql.executeQuery(query);
    	      System.out.println("Updated favorite items successfully.");
 	      }
 	      else {
 	         System.out.println("Favorite items not changed.");
+	      }
+	      
+	      if(perm == 1) {
+   	      /* Type of User */
+   	      String typeOfUser;
+   	      while (typeOfUser.length() > 8) {
+   	         if (typeOfUser.length() > 8) {
+   	            System.out.print("Not a valid user type. ");
+   	         }
+   	         System.out.println("Please update the user's type: ");
+   	         typeOfUser = in.readLine();
+   	      }
+   	      if (typeOfUser.length() != 0) {
+      	      query = String.format("UPDATE USER SET type = '%s' WHERE login = '%s'", typeOfUser, authorisedUser);
+      	      esql.executeQuery(query);
+      	      System.out.println("Updated user type successfully.");
+   	      }
+   	      else {
+   	         System.out.println("User type not changed.");
+   	      }
 	      }
       }
       catch (Exception except) {
@@ -571,10 +591,61 @@ public class Cafe {
       }
    }//end
 
-   public static void ManagerUpdateUserInfo(Cafe esql){
+   public static void ManagerUpdateUserInfo(Cafe esql, authorisedUser){
       try {
-          String query = "";
-	  esql.executeQuery(query);
+         boolean pending_selection = true;
+          
+         while (pending_selection) {
+            System.out.println("Please select an option: ");
+            System.out.println("\t 1. Change my information.");
+            System.out.println("\t 2. Change another user's information.");
+            System.out.println("\t 3. Go back.");
+            
+            switch (readChoice()) {
+               case 1:
+                  UpdateUserInfo(esql, authorisedUser);
+                  break;
+                  
+               case 2:
+                  System.out.println("Please enter a user's login ID to edit: ");
+                  String search = in.readLine();
+                  String query = "SELECT DISTINCT(login) FROM USER WHERE login LIKE '%" + search + "%'";
+                  
+                  List<String> userList = new ArrayList<String>();
+                  List<List<String>> users = new ArrayList<List<String>>();
+                  
+                  users = esql.executeQueryAndReturnResult(query);
+                  for(int i = 0; i < users.size(); i++) {
+                     userList.add(users.get(i).get(0));
+                     System.out.println(i + ". " + users.get(i).get(0));
+                  }
+                  
+                  System.out.println("\n" + userList.size() + " results found. Please enter the number from the list above, or a login ID: ");
+                  search = in.readLine();
+
+                  try {
+                     int selection = Integer.parseInt(search);
+                     search = userList.get(selection);
+                     break;
+                  }
+                  catch (Exception e) {
+                     break;
+                  }
+                  query = String.format("SELECT login FROM User WHERE login = '%s'", search);
+                  
+                  String selectedUser = esql.executeQueryAndReturnResult(query);
+                  UpdateUserInfo(esql, selectedUser, 1);
+                  break;
+                  
+               case 3:
+                  pending_selection = false;
+                  break;
+                  
+               default: 
+                  System.out.println("Unrecognized choice!");
+                  break;
+            }
+         }
       }
       catch (Exception except) {
           System.err.println (except.getMessage());
