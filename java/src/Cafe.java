@@ -437,48 +437,48 @@ public class Cafe {
 
    public static String find_type(Cafe esql){
       try {
-          String query = "";
-	  esql.executeQuery(query);
+         String query = "";
+	      esql.executeQuery(query);
       }
       catch (Exception except) {
-          System.err.println (except.getMessage());
+         System.err.println (except.getMessage());
       }
       return "Employee";
    }
 
    public static void BrowseMenuName(Cafe esql){
       try {
-          System.out.print("\tEnter item name: ");
-          String name = in.readLine();
-          String query = "SELECT M.itemName, M.price, M.description FROM Menu M WHERE M.iemName = '";
-          query += name + "';";
+         System.out.print("\tEnter item name: ");
+         String name = in.readLine();
+         String query = "SELECT M.itemName, M.price, M.description FROM Menu M WHERE M.iemName = '";
+         query += name + "';";
 	      esql.executeQuery(query);
       }
       catch (Exception except) {
-          System.err.println (except.getMessage());
+         System.err.println (except.getMessage());
       }
    }//end
 
    public static void BrowseMenuType(Cafe esql){
       try {
-          System.out.print("\tEnter item type: ");
-          String type = in.readLine();
-          String query = "SELECT M.itemName, M.price, M.description FROM Menu M WHERE M.type = '";
-          query += type + "';";
+         System.out.print("\tEnter item type: ");
+         String type = in.readLine();
+         String query = "SELECT M.itemName, M.price, M.description FROM Menu M WHERE M.type = '";
+         query += type + "';";
 	      esql.executeQuery(query);
       }
       catch (Exception except) {
-          System.err.println (except.getMessage());
+         System.err.println (except.getMessage());
       }
    }//end
 
    public static Integer AddOrder(Cafe esql){
       try {
-          String query = "";
-	  esql.executeQuery(query);
+         String query = "";
+	      esql.executeQuery(query);
       }
       catch (Exception except) {
-          System.err.println (except.getMessage());
+         System.err.println (except.getMessage());
       }
       Integer orderid=0;
       return orderid;
@@ -486,31 +486,59 @@ public class Cafe {
 
    public static void UpdateOrder(Cafe esql){
       try {
-          String query = "";
-	  esql.executeQuery(query);
+         
+         String query = "";
+	      esql.executeQuery(query);
       }
       catch (Exception except) {
-          System.err.println (except.getMessage());
+         System.err.println (except.getMessage());
       }
    }//end
 
    public static void EmployeeUpdateOrder(Cafe esql){
       try {
-          String query = "";
-	  esql.executeQuery(query);
+         System.out.println("1. Update Paid Status");
+         System.out.println("2. Update Item Status");
+         int input = Integer.parseInt(in.readLine());
+         switch(input) {
+            case 1:
+               System.out.println("Enter Order ID");
+               String orderID = in.readLine();
+               String query = "UPDATE Orders SET Orders.paid = TRUE WHERE Orders.orderid = ";
+               query += orderid + ";";
+               esql.executeQuery(query);
+               System.out.println("The order is now paid");
+               break;
+            case 2:
+               System.out.println("Enter Order ID");
+               String orderID = in.readLine();
+               System.out.println("Enter the new order status");
+               String orderStatus = in.readLine();
+               String query = "UPDATE ItemStatus SET ItemStatus.status = '";
+               query += orderStatus + "' FROM ItemStatus, Orders WHERE Orders.orderid = ";
+               query += orderid + ";";
+               System.out.println("The order status has been updated");
+               esql.executeQuery(query);
+               
+               
+               break;
+            default:
+               System.out.println("Your choice is invalid");
+               break;
+         }
       }
       catch (Exception except) {
-          System.err.println (except.getMessage());
+         System.err.println (except.getMessage());
       }
    }//end
 
    public static void ViewOrderHistory(Cafe esql){
       try {
-          String query = "";
-	  esql.executeQuery(query);
+         String query = "";
+	      esql.executeQuery(query);
       }
       catch (Exception except) {
-          System.err.println (except.getMessage());
+         System.err.println (except.getMessage());
       }
    }//end
 
@@ -573,60 +601,60 @@ public class Cafe {
 	      }
       }
       catch (Exception except) {
-          System.err.println (except.getMessage());
+         System.err.println (except.getMessage());
       }
    }//end
 
    public static void ManagerUpdateUserInfo(Cafe esql){
       try {
-          String query = "";
-	  esql.executeQuery(query);
+         String query = "";
+	      esql.executeQuery(query);
       }
       catch (Exception except) {
-          System.err.println (except.getMessage());
+         System.err.println (except.getMessage());
       }
    }//end
 
    public static void UpdateMenu(Cafe esql){
       try {
-          String query = "";
-	  esql.executeQuery(query);
+         String query = "";
+	      esql.executeQuery(query);
       }
       catch (Exception except) {
-          System.err.println (except.getMessage());
+         System.err.println (except.getMessage());
       }
    }//end
 
    public static void ViewOrderStatus(Cafe esql){
       try {
-          System.out.print("\tEnter Order ID: ");
-          String orderID = in.readLine();
-          String query = "SELECT I.status FROM ItemStatus I WHERE I.orderid = ";
-          query += orderID + ";";
+         System.out.print("\tEnter Order ID: ");
+         String orderID = in.readLine();
+         String query = "SELECT I.status FROM ItemStatus I WHERE I.orderid = ";
+         query += orderID + ";";
 	      esql.executeQuery(query);
       }
       catch (Exception except) {
-          System.err.println (except.getMessage());
+         System.err.println (except.getMessage());
       }
    }//end
 
    public static void ViewCurrentOrder(Cafe esql){
       try {
-          String query = "";
-	  esql.executeQuery(query);
+         String query = "";
+	      esql.executeQuery(query);
       }
       catch (Exception except) {
-          System.err.println (except.getMessage());
+         System.err.println (except.getMessage());
       }
    }//end
 
    public static void Query6(Cafe esql){
       try {
-          String query = "";
-	  esql.executeQuery(query);
+         String query = "";
+	      esql.executeQuery(query);
       }
       catch (Exception except) {
-          System.err.println (except.getMessage());
+         System.err.println (except.getMessage());
       }
    }//end Query6
 
