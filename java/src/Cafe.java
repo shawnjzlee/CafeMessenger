@@ -264,7 +264,7 @@ public class Cafe {
             }//end switch
             if (authorisedUser != null) {
               boolean usermenu = true;
-              String user_type = find_type(esql);
+              String user_type = find_type(esql, authorisedUser);
 	      switch (user_type){
 		case "Customer": 
 		  while(usermenu) {
@@ -435,10 +435,11 @@ public class Cafe {
       }
    }//end
 
-   public static String find_type(Cafe esql){
+   public static String find_type(Cafe esql, String authorisedUser){
       try {
-         String query = "";
-	      esql.executeQuery(query);
+         String query = String.format("SELECT type FROM Users WHERE login = '%s'", authorisedUser);
+	      String getType = esql.executeQueryAndReturnResult(query);
+	      return getType;
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
