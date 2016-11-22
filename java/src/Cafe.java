@@ -286,7 +286,7 @@ public class Cafe {
                        case 4: UpdateOrder(esql); break;
                        case 5: ViewOrderHistory(esql); break;
                        case 6: ViewOrderStatus(esql); break;
-                       case 7: UpdateUserInfo(esql, authorisedUser); break;
+                       case 7: UpdateUserInfo(esql, authorisedUser, 0); break;
                        case 9: usermenu = false; break;
                        default : System.out.println("Unrecognized choice!"); break;
 		      }//end switch
@@ -438,8 +438,14 @@ public class Cafe {
    public static String find_type(Cafe esql, String authorisedUser){
       try {
          String query = String.format("SELECT type FROM Users WHERE login = '%s'", authorisedUser);
-	      String getType = esql.executeQueryAndReturnResult(query);
-	      return getType;
+              List<String> type = new ArrayList<String>();
+              List<List<String>> typeList = new ArrayList<List<String>>();
+              
+              typeList = esql.executeQueryAndReturnResult(query);
+              for(int i = 0; i < typeList.size(); i++) {
+                 type.add(typeList.get(i).get(0));
+              }
+         return type.get(0);
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
@@ -501,27 +507,28 @@ public class Cafe {
          System.out.println("1. Update Paid Status");
          System.out.println("2. Update Item Status");
          int input = Integer.parseInt(in.readLine());
+
+         String orderID;
+         String query;
          switch(input) {
             case 1:
                System.out.println("Enter Order ID");
-               String orderID = in.readLine();
-               String query = "UPDATE Orders SET Orders.paid = TRUE WHERE Orders.orderid = ";
-               query += orderid + ";";
+               orderID = in.readLine();
+               query = "UPDATE Orders SET Orders.paid = TRUE WHERE Orders.orderid = ";
+               query += orderID + ";";
                esql.executeQuery(query);
                System.out.println("The order is now paid");
                break;
             case 2:
                System.out.println("Enter Order ID");
-               String orderID = in.readLine();
+               orderID = in.readLine();
                System.out.println("Enter the new order status");
                String orderStatus = in.readLine();
-               String query = "UPDATE ItemStatus SET ItemStatus.status = '";
+               query = "UPDATE ItemStatus SET ItemStatus.status = '";
                query += orderStatus + "' FROM ItemStatus, Orders WHERE Orders.orderid = ";
-               query += orderid + ";";
+               query += orderID + ";";
                System.out.println("The order status has been updated");
                esql.executeQuery(query);
-               
-               
                break;
             default:
                System.out.println("Your choice is invalid");
@@ -548,7 +555,7 @@ public class Cafe {
          System.out.println("Please enter the following information to update, press ENTER to skip.");
          
          /* Phone Number */
-         String phoneNum;
+         String phoneNum = null;
          while (phoneNum.length() > 13) {
             if (phoneNum.length() > 13) {
                System.out.print("Invalid phone number. ");
@@ -566,7 +573,7 @@ public class Cafe {
          }
 	      
 	      /* Password */
-	      String password;
+	      String password = null;
 	      while (password.length() > 50) {
 	         if (password.length() > 50) {
 	            System.out.print("Password is too long. ");
@@ -575,7 +582,7 @@ public class Cafe {
 	         password = in.readLine();
 	      }
 	      if (password.length() != 0) {
-   	      query = String.format("UPDATE USER SET password = '%s' WHERE login = '%s'", password, authorisedUser);
+   	      String query = String.format("UPDATE USER SET password = '%s' WHERE login = '%s'", password, authorisedUser);
    	      esql.executeQuery(query);
    	      System.out.println("Updated password successfully.");
 	      }
@@ -584,7 +591,7 @@ public class Cafe {
 	      }
 	      
 	      /* Favorite Items */
-	      String favItems;
+	      String favItems = null;
 	      while (favItems.length() > 400) {
 	         if (favItems.length() > 400) {
 	            System.out.print("Too many favorite items. ");
@@ -593,7 +600,7 @@ public class Cafe {
 	         favItems = in.readLine();
 	      }
 	      if (favItems.length() != 0) {
-   	      query = String.format("UPDATE USER SET favItems = '%s' WHERE login = '%s'", favItems, authorisedUser);
+   	      String query = String.format("UPDATE USER SET favItems = '%s' WHERE login = '%s'", favItems, authorisedUser);
    	      esql.executeQuery(query);
    	      System.out.println("Updated favorite items successfully.");
 	      }
@@ -603,7 +610,7 @@ public class Cafe {
 	      
 	      if(perm == 1) {
    	      /* Type of User */
-   	      String typeOfUser;
+   	      String typeOfUser = null;
    	      while (typeOfUser.length() > 8) {
    	         if (typeOfUser.length() > 8) {
    	            System.out.print("Not a valid user type. ");
@@ -612,7 +619,7 @@ public class Cafe {
    	         typeOfUser = in.readLine();
    	      }
    	      if (typeOfUser.length() != 0) {
-      	      query = String.format("UPDATE USER SET type = '%s' WHERE login = '%s'", typeOfUser, authorisedUser);
+      	      String query = String.format("UPDATE USER SET type = '%s' WHERE login = '%s'", typeOfUser, authorisedUser);
       	      esql.executeQuery(query);
       	      System.out.println("Updated user type successfully.");
    	      }
@@ -626,7 +633,7 @@ public class Cafe {
       }
    }//end
 
-   public static void ManagerUpdateUserInfo(Cafe esql, authorisedUser){
+   public static void ManagerUpdateUserInfo(Cafe esql, String authorisedUser){
       try {
          boolean pending_selection = true;
           
@@ -638,7 +645,7 @@ public class Cafe {
             
             switch (readChoice()) {
                case 1:
-                  UpdateUserInfo(esql, authorisedUser);
+                  UpdateUserInfo(esql, authorisedUser, 0);
                   break;
                   
                case 2:
@@ -668,8 +675,15 @@ public class Cafe {
                   }
                   query = String.format("SELECT login FROM User WHERE login = '%s'", search);
                   
-                  String selectedUser = esql.executeQueryAndReturnResult(query);
-                  UpdateUserInfo(esql, selectedUser, 1);
+                  List<String> selectedUser = new ArrayList<String>();
+                  List<List<String>> selectedUserList = new ArrayList<List<String>>();
+                  
+                  selectedUserList = esql.executeQueryAndReturnResult(query);
+                  for(int i = 0; i < selectedUserList.size(); i++) {
+                     selectedUser.add(selectedUserList.get(i).get(0));
+                  }
+
+                  UpdateUserInfo(esql, selectedUser.get(0), 1);
                   break;
                   
                case 3:
