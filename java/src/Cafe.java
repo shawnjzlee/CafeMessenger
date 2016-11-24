@@ -703,8 +703,33 @@ public class Cafe {
 
    public static void UpdateMenu(Cafe esql){
       try {
+         System.out.println("1. Add new item");
+         System.out.println("2. Delete existing item");
+         System.out.println("3. Update existing item");
          String query = "";
-	      esql.executeQuery(query);
+           switch (readChoice()){
+             case 1:
+               System.out.print("\tEnter item name: ");
+               String name = in.readLine();
+               System.out.print("\tEnter item type: ");
+               String type = in.readLine();
+               System.out.print("\tEnter item price: ");
+               String price = in.readLine();
+
+               query = "INSERT INTO Menu(itemName, type, price, description, imageURLi) VALUES ('" + name + "', '" + type + "', " + price + ", 'No description', + 'Null');";
+               break;
+             case 2:
+               System.out.print("\tEnter item name: ");
+               String name = in.readLine();
+               query = "DELETE FROM Menu WHERE itemName = '" + name + "';";
+               break;
+             case 3:
+               query = "UPDATE Menu SET;";
+               break;
+             default: break;
+           }
+
+	     esql.executeQuery(query);
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
