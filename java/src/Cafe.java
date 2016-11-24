@@ -671,9 +671,8 @@ public class Cafe {
                      break;
                   }
                   catch (Exception e) {
-                     break;
                   }
-                  query = String.format("SELECT login FROM User WHERE login = '%s'", search);
+                  query = "SELECT login FROM User WHERE login = '" + search + "';";
                   
                   List<String> selectedUser = new ArrayList<String>();
                   List<List<String>> selectedUserList = new ArrayList<List<String>>();
@@ -707,10 +706,11 @@ public class Cafe {
          System.out.println("2. Delete existing item");
          System.out.println("3. Update existing item");
          String query = "";
+         String name = "";
            switch (readChoice()){
              case 1:
                System.out.print("\tEnter item name: ");
-               String name = in.readLine();
+               name = in.readLine();
                System.out.print("\tEnter item type: ");
                String type = in.readLine();
                System.out.print("\tEnter item price: ");
@@ -720,7 +720,7 @@ public class Cafe {
                break;
              case 2:
                System.out.print("\tEnter item name: ");
-               String name = in.readLine();
+               name = in.readLine();
                query = "DELETE FROM Menu WHERE itemName = '" + name + "';";
                break;
              case 3:
