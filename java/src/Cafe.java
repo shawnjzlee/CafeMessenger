@@ -719,12 +719,45 @@ public class Cafe {
                query = "INSERT INTO Menu(itemName, type, price, description, imageURLi) VALUES ('" + name + "', '" + type + "', " + price + ", 'No description', + 'Null');";
                break;
              case 2:
-               System.out.print("\tEnter item name: ");
+               System.out.print("\tEnter the name of item to be deleted: ");
                name = in.readLine();
                query = "DELETE FROM Menu WHERE itemName = '" + name + "';";
                break;
              case 3:
-               query = "UPDATE Menu SET;";
+               System.out.print("\tEnter the name of item to be updated: "); 
+               name = in.readLine();
+               System.out.println("1. Update item name");
+               System.out.println("2. Update item type");
+               System.out.println("3. Update item price");
+               System.out.println("4. Update item description");
+               System.out.println("5. Update item url");
+               switch (readChoice()){
+                 case 1:
+                   System.out.print("\tEnter new name: ");
+                   newName = in.readLine();
+                   query = "UPDATE Menu SET itemName = '" + newName + "' WHERE itemName = '" + name + "';"; 
+                   break;
+                 case 2:
+                   System.out.print("\tEnter new type: ");
+                   newType = in.readLine();
+                   query = "UPDATE Menu SET type = '" + newType + "' WHERE itemName = '" + name + "';"; 
+                   break;
+                 case 3:
+                   System.out.print("\tEnter new price: ");
+                   newPrice = in.readLine();
+                   query = "UPDATE Menu SET price = " + newPrice + " WHERE itemName = '" + name + "';"; 
+                   break;
+                 case 4:
+                   System.out.print("\tEnter new description: ");
+                   newDescription = in.readLine();
+                   query = "UPDATE Menu SET description = '" + newDescription + "' WHERE itemName = '" + name + "';";
+                   break;
+                 case 5:
+                   System.out.print("\tEnter new url: ");
+                   newUrl = in.readLine();
+                   query = "UPDATE Menu SET imageURL = '" + newUrl + "' WHERE itemName = '" + name + "';";
+                   break;
+                 default: break;
                break;
              default: break;
            }
@@ -751,8 +784,8 @@ public class Cafe {
 
    public static void ViewCurrentOrder(Cafe esql){
       try {
-         String query = "";
-	      esql.executeQuery(query);
+         String query = "SELECT I.itemName, I.orderid FROM ItemStatus I WHERE I.status <> 'Finished';";
+	     esql.executeQuery(query);
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
@@ -762,7 +795,7 @@ public class Cafe {
    public static void Query6(Cafe esql){
       try {
          String query = "";
-	      esql.executeQuery(query);
+	     esql.executeQuery(query);
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
