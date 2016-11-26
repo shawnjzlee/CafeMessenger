@@ -481,8 +481,9 @@ public class Cafe {
 
    public static Integer AddOrder(Cafe esql){
       try {
+         System.out.print("\t
          String query = "";
-	      esql.executeQuery(query);
+	     esql.executeQuery(query);
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
@@ -493,9 +494,31 @@ public class Cafe {
 
    public static void UpdateOrder(Cafe esql){
       try {
-         
-         String query = "";
-	      esql.executeQuery(query);
+         System.out.println("Displaying list of non-paid orders: ");
+         String query = "SELECT O.orderid, I.itemName FROM Orders O, ItemStatus I WHERE O.orderid = I.orderid and O.paid = false";
+	     esql.executeQuery(query);
+
+         System.out.println("Enter the orderid of the order you wish to update: ");
+         orderID = System.in.readLine();
+
+         System.out.println("1. Update Order Name");
+         System.out.println("2. Update Order Comments");
+
+         int input = Integer.parseInt(in.readLine());
+         switch(input) {
+            case 1:
+               System.out.println("Enter new order name: ");
+               String newOrder = in.readLine();
+               query = "UPDATE ItemStatus SET ItemStatus.itemName = '" + newOrder + "' WHERE ItemStatus.orderid = " + orderID + ";"
+               break;
+            case 2:
+               System.out.println("Enter new comments: ");
+               String newComments = in.readLine();
+               query = "UPDATE ItemStatus SET ItemStatus.comments = '" + newComments + "' WHERE ItemStatus.orderid = " + orderID + ";"
+               break;
+            default: break;
+         }
+	     esql.executeQuery(query);
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
