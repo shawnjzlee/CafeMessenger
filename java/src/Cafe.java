@@ -499,7 +499,7 @@ public class Cafe {
 	     esql.executeQuery(query);
 
          System.out.println("Enter the orderid of the order you wish to update: ");
-         orderID = System.in.readLine();
+         String orderID = in.readLine();
 
          System.out.println("1. Update Order Name");
          System.out.println("2. Update Order Comments");
@@ -509,12 +509,12 @@ public class Cafe {
             case 1:
                System.out.println("Enter new order name: ");
                String newOrder = in.readLine();
-               query = "UPDATE ItemStatus SET ItemStatus.itemName = '" + newOrder + "' WHERE ItemStatus.orderid = " + orderID + ";"
+               query = "UPDATE ItemStatus SET ItemStatus.itemName = '" + newOrder + "' WHERE ItemStatus.orderid = " + orderID + ";";
                break;
             case 2:
                System.out.println("Enter new comments: ");
                String newComments = in.readLine();
-               query = "UPDATE ItemStatus SET ItemStatus.comments = '" + newComments + "' WHERE ItemStatus.orderid = " + orderID + ";"
+               query = "UPDATE ItemStatus SET ItemStatus.comments = '" + newComments + "' WHERE ItemStatus.orderid = " + orderID + ";";
                break;
             default: break;
          }
@@ -757,30 +757,31 @@ public class Cafe {
                switch (readChoice()){
                  case 1:
                    System.out.print("\tEnter new name: ");
-                   newName = in.readLine();
+                    String newName = in.readLine();
                    query = "UPDATE Menu SET itemName = '" + newName + "' WHERE itemName = '" + name + "';"; 
                    break;
                  case 2:
                    System.out.print("\tEnter new type: ");
-                   newType = in.readLine();
+                   String newType = in.readLine();
                    query = "UPDATE Menu SET type = '" + newType + "' WHERE itemName = '" + name + "';"; 
                    break;
                  case 3:
                    System.out.print("\tEnter new price: ");
-                   newPrice = in.readLine();
+                   String newPrice = in.readLine();
                    query = "UPDATE Menu SET price = " + newPrice + " WHERE itemName = '" + name + "';"; 
                    break;
                  case 4:
                    System.out.print("\tEnter new description: ");
-                   newDescription = in.readLine();
+                   String newDescription = in.readLine();
                    query = "UPDATE Menu SET description = '" + newDescription + "' WHERE itemName = '" + name + "';";
                    break;
                  case 5:
                    System.out.print("\tEnter new url: ");
-                   newUrl = in.readLine();
+                   String newUrl = in.readLine();
                    query = "UPDATE Menu SET imageURL = '" + newUrl + "' WHERE itemName = '" + name + "';";
                    break;
                  default: break;
+               }
                break;
              default: break;
            }
