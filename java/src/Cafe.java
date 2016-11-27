@@ -481,8 +481,8 @@ public class Cafe {
 
    public static Integer AddOrder(Cafe esql){
       try {
-         System.out.print("\t
-         String query = "";
+         System.out.print("\tEnter new order name: ");
+         String query = "INSERT INTO Orders(login, paid, timeStampRecieved, total) VALUES ('', false, 0, 0);";
 	     esql.executeQuery(query);
       }
       catch (Exception except) {
