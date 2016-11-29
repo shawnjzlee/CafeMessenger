@@ -599,15 +599,14 @@ public class Cafe {
          System.out.println("Please enter the following information to update, press ENTER to skip.");
          
          /* Phone Number */
-         String phoneNum = null;
-         while (phoneNum.length() > 13) {
-            if (phoneNum.length() > 13) {
-               System.out.print("Invalid phone number. ");
-            }
+         System.out.println("Please enter a new phone number: ");
+         String phoneNum = in.readLine();
+         while (phoneNum.length() != 13 && !phoneNum.isEmpty()) {
+            System.out.print("Invalid phone number. ");
             System.out.println("Please enter a new phone number: ");
             phoneNum = in.readLine();
          }
-         if (phoneNum.length() != 0) {
+         if (phoneNum.length() !phoneNum.isEmpty()) {
             String query = String.format("UPDATE USER SET phoneNum = '%s' WHERE login = '%s'", phoneNum, authorisedUser);
    	      esql.executeQuery(query);
    	      System.out.println("Updated phone number successfully.");
