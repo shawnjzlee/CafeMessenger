@@ -479,7 +479,7 @@ public class Cafe {
       }
    }//end
 
-   public static Integer AddOrder(Cafe esql, String authorisedUser){
+   public static void AddOrder(Cafe esql, String authorisedUser){
       try {
          List<String> orderid = new ArrayList<String>();
          List<List<String>> orderidList = new ArrayList<List<String>>();
@@ -504,17 +504,15 @@ public class Cafe {
            total.add(totalList.get(i).get(0));
          }
          
-         int get_total = Integer.parseInt(total.get(0));
+         double get_total = Double.parseDouble(total.get(0));
          
-         query = String.format("INSERT INTO Orders(orderid, login, paid, timeStampRecieved, total) VALUES (%d, %s, false, 0, %d)", get_orderid, authorisedUser, get_total);
+         query = String.format("INSERT INTO Orders(orderid, login, paid, timeStampRecieved, total) VALUES (%d, %s, false, 0, %f)", get_orderid, authorisedUser, get_total);
 	      esql.executeUpdate(query);
 	      System.out.println("Order " + get_orderid + " added successfully.");
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
       }
-      Integer orderid=0;
-      return orderid;
    }//end 
 
    public static void UpdateOrder(Cafe esql){
