@@ -282,7 +282,7 @@ public class Cafe {
                       switch (readChoice()){
                        case 1: BrowseMenuName(esql); break;
                        case 2: BrowseMenuType(esql); break;
-                       case 3: AddOrder(esql); break;
+                       case 3: AddOrder(esql, authorisedUser); break;
                        case 4: UpdateOrder(esql); break;
                        case 5: ViewOrderHistory(esql); break;
                        case 6: ViewOrderStatus(esql); break;
@@ -307,7 +307,7 @@ public class Cafe {
                       switch (readChoice()){
                        case 1: BrowseMenuName(esql); break;
                        case 2: BrowseMenuType(esql); break;
-                       case 3: AddOrder(esql); break;
+                       case 3: AddOrder(esql, authorisedUser); break;
                        case 4: EmployeeUpdateOrder(esql); break;
                        case 5: ViewCurrentOrder(esql); break;
                        case 6: ViewOrderStatus(esql); break;
@@ -333,7 +333,7 @@ public class Cafe {
                       switch (readChoice()){
                        case 1: BrowseMenuName(esql); break;
                        case 2: BrowseMenuType(esql); break;
-                       case 3: AddOrder(esql); break;
+                       case 3: AddOrder(esql, authorisedUser); break;
                        case 4: EmployeeUpdateOrder(esql); break;
                        case 5: ViewCurrentOrder(esql); break;
                        case 6: ViewOrderStatus(esql); break;
@@ -438,13 +438,13 @@ public class Cafe {
    public static String find_type(Cafe esql, String authorisedUser){
       try {
          String query = String.format("SELECT type FROM Users WHERE login = '%s'", authorisedUser);
-              List<String> type = new ArrayList<String>();
-              List<List<String>> typeList = new ArrayList<List<String>>();
-              
-              typeList = esql.executeQueryAndReturnResult(query);
-              for(int i = 0; i < typeList.size(); i++) {
-                 type.add(typeList.get(i).get(0));
-              }
+         List<String> type = new ArrayList<String>();
+         List<List<String>> typeList = new ArrayList<List<String>>();
+        
+         typeList = esql.executeQueryAndReturnResult(query);
+         for(int i = 0; i < typeList.size(); i++) {
+           type.add(typeList.get(i).get(0));
+        }
          return type.get(0);
       }
       catch (Exception except) {
@@ -457,9 +457,9 @@ public class Cafe {
       try {
          System.out.print("\tEnter item name: ");
          String name = in.readLine();
-         String query = "SELECT M.itemName, M.price, M.description FROM Menu M WHERE M.iemName = '";
+         String query = "SELECT M.itemName, M.price, M.description FROM Menu M WHERE M.itemName = '";
          query += name + "';";
-	      esql.executeQuery(query);
+	      esql.executeQueryAndPrintResult(query);
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
@@ -472,18 +472,43 @@ public class Cafe {
          String type = in.readLine();
          String query = "SELECT M.itemName, M.price, M.description FROM Menu M WHERE M.type = '";
          query += type + "';";
-	      esql.executeQuery(query);
+	      esql.executeQueryAndPrintResult(query);
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
       }
    }//end
 
-   public static Integer AddOrder(Cafe esql){
+   public static Integer AddOrder(Cafe esql, String authorisedUser){
       try {
-         System.out.print("\tEnter new order name: ");
-         String query = "INSERT INTO Orders(login, paid, timeStampRecieved, total) VALUES ('', false, 0, 0);";
-	     esql.executeQuery(query);
+         List<String> orderid = new ArrayList<String>();
+         List<List<String>> orderidList = new ArrayList<List<String>>();
+         
+         String query = "SELECT MAX(O.orderid) FROM Orders O";
+         orderidList = esql.executeQueryAndReturnResult(query);
+         for(int i = 0; i < orderidList.size(); i++) {
+           orderid.add(orderidList.get(i).get(0));
+         }
+         
+         int get_orderid = Integer.parseInt(orderid.get(0)) + 1;
+         
+         System.out.print("\tEnter new item name: ");
+         String item = in.readLine();
+         query = String.format("SELECT M.price FROM Menu M WHERE M.itemName = '%s'", item);
+         
+         List<String> total = new ArrayList<String>();
+         List<List<String>> totalList = new ArrayList<List<String>>();
+        
+         totalList = esql.executeQueryAndReturnResult(query);
+         for(int i = 0; i < totalList.size(); i++) {
+           total.add(totalList.get(i).get(0));
+         }
+         
+         int get_total = Integer.parseInt(total.get(0));
+         
+         query = String.format("INSERT INTO Orders(orderid, login, paid, timeStampRecieved, total) VALUES (%d, %s, false, 0, %d)", get_orderid, authorisedUser, get_total);
+	      esql.executeUpdate(query);
+	      System.out.println("Order " + get_orderid + " added successfully.");
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
