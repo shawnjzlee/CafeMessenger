@@ -285,7 +285,7 @@ public class Cafe {
                        case 3: AddOrder(esql, authorisedUser); break;
                        case 4: UpdateOrder(esql); break;
                        case 5: ViewOrderHistory(esql); break;
-                       case 6: ViewOrderStatus(esql); break;
+                       case 6: ViewOrderStatus(esql, authorisedUser, 1); break;
                        case 7: UpdateUserInfo(esql, authorisedUser, 0); break;
                        case 9: usermenu = false; break;
                        default : System.out.println("Unrecognized choice!"); break;
@@ -309,7 +309,7 @@ public class Cafe {
                        case 2: BrowseMenuType(esql); break;
                        case 3: AddOrder(esql, authorisedUser); break;
                        case 4: EmployeeUpdateOrder(esql); break;
-                       case 5: ViewCurrentOrder(esql); break;
+                       case 5: ViewCurrentOrder(esql, authorisedUser, 1); break;
                        case 6: ViewOrderStatus(esql); break;
                        case 7: UpdateUserInfo(esql, authorisedUser, 0); break;
                        case 9: usermenu = false; break;
@@ -335,7 +335,7 @@ public class Cafe {
                        case 2: BrowseMenuType(esql); break;
                        case 3: AddOrder(esql, authorisedUser); break;
                        case 4: EmployeeUpdateOrder(esql); break;
-                       case 5: ViewCurrentOrder(esql); break;
+                       case 5: ViewCurrentOrder(esql, authorisedUser, 1); break;
                        case 6: ViewOrderStatus(esql); break;
                        case 7: ManagerUpdateUserInfo(esql, authorisedUser); break;
                        case 8: UpdateMenu(esql); break;
@@ -829,10 +829,10 @@ public class Cafe {
       }
    }//end
 
-   public static void ViewCurrentOrder(Cafe esql){
+   public static void ViewCurrentOrder(Cafe esql, String authorisedUser, int perm){
       try {
-         String query = "SELECT I.itemName, I.orderid FROM ItemStatus I WHERE I.status <> 'Finished';";
-	     esql.executeQueryAndPrintResult(query);
+         String query = String.format("SELECT I.itemName, I.orderid FROM ItemStatus I, Orders O WHERE I.status <> 'Finished' AND I.orderid = O.orderid AND O.login = '%s'", authorisedUser);
+	      esql.executeQueryAndPrintResult(query);
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
