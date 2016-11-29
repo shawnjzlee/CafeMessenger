@@ -606,7 +606,7 @@ public class Cafe {
             System.out.println("Please enter a new phone number: ");
             phoneNum = in.readLine();
          }
-         if (phoneNum.length() !phoneNum.isEmpty()) {
+         if (!phoneNum.isEmpty()) {
             String query = String.format("UPDATE USER SET phoneNum = '%s' WHERE login = '%s'", phoneNum, authorisedUser);
    	      esql.executeQuery(query);
    	      System.out.println("Updated phone number successfully.");
@@ -616,15 +616,19 @@ public class Cafe {
          }
 	      
 	      /* Password */
-	      String password = null;
-	      while (password.length() > 50) {
-	         if (password.length() > 50) {
-	            System.out.print("Password is too long. ");
+	      System.out.println("Please enter a new password: ");
+	      String password = in.readLine();
+	      while (password.length() > 50 || password.length() < 4) {
+	         if (password.length() < 4) {
+	            System.out.print("Password is too short. ");
+	         }
+	         else { 
+	            System.out.print("Password is too long. "); 
 	         }
 	         System.out.println("Please enter a new password: ");
 	         password = in.readLine();
 	      }
-	      if (password.length() != 0) {
+	      if (!password.isEmpty()) {
    	      String query = String.format("UPDATE USER SET password = '%s' WHERE login = '%s'", password, authorisedUser);
    	      esql.executeQuery(query);
    	      System.out.println("Updated password successfully.");
@@ -634,15 +638,14 @@ public class Cafe {
 	      }
 	      
 	      /* Favorite Items */
-	      String favItems = null;
+	      System.out.println("Please enter your favorite items, separated by a comma: ");
+	      String favItems = in.readLine();
 	      while (favItems.length() > 400) {
-	         if (favItems.length() > 400) {
-	            System.out.print("Too many favorite items. ");
-	         }
+	         System.out.print("Too many favorite items. ");
 	         System.out.println("Please enter your favorite items, separated by a comma: ");
 	         favItems = in.readLine();
 	      }
-	      if (favItems.length() != 0) {
+	      if (!favItems.isEmpty()) {
    	      String query = String.format("UPDATE USER SET favItems = '%s' WHERE login = '%s'", favItems, authorisedUser);
    	      esql.executeQuery(query);
    	      System.out.println("Updated favorite items successfully.");
@@ -653,15 +656,14 @@ public class Cafe {
 	      
 	      if(perm == 1) {
    	      /* Type of User */
-   	      String typeOfUser = null;
+   	      System.out.println("Please update the user's type: ");
+   	      String typeOfUser = in.readLine();
    	      while (typeOfUser.length() > 8) {
-   	         if (typeOfUser.length() > 8) {
-   	            System.out.print("Not a valid user type. ");
-   	         }
+   	         System.out.print("Not a valid user type. ");
    	         System.out.println("Please update the user's type: ");
    	         typeOfUser = in.readLine();
    	      }
-   	      if (typeOfUser.length() != 0) {
+   	      if (!typeOfUser.isEmpty()) {
       	      String query = String.format("UPDATE USER SET type = '%s' WHERE login = '%s'", typeOfUser, authorisedUser);
       	      esql.executeQuery(query);
       	      System.out.println("Updated user type successfully.");
