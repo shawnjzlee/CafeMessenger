@@ -818,7 +818,7 @@ public class Cafe {
       try {
          System.out.print("\tEnter Order ID: ");
          String orderID = in.readLine();
-         String query = "SELECT I.status FROM ItemStatus I WHERE I.orderid = ";
+         String query = "SELECT * FROM Orders WHERE orderid = ";
          query += orderID + ";";
 	      esql.executeQueryAndPrintResult(query);
       }
@@ -829,7 +829,7 @@ public class Cafe {
 
    public static void ViewCurrentOrder(Cafe esql, String authorisedUser, int perm){
       try {
-         String query = String.format("SELECT I.itemName, I.orderid FROM ItemStatus I, Orders O WHERE I.status <> 'Finished' AND I.orderid = O.orderid AND O.login = '%s'", authorisedUser);
+         String query = String.format("SELECT O.orderid FROM Orders O WHERE O.timeStampRecieved > (now() - interval '24 hours') AND O.paid = false AND O.login = '%s'", authorisedUser);
 	      esql.executeQueryAndPrintResult(query);
       }
       catch (Exception except) {
