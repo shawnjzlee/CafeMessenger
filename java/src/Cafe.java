@@ -285,7 +285,7 @@ public class Cafe {
                        case 3: AddOrder(esql, authorisedUser); break;
                        case 4: UpdateOrder(esql); break;
                        case 5: ViewOrderHistory(esql); break;
-                       case 6: ViewOrderStatus(esql, authorisedUser, 1); break;
+                       case 6: ViewOrderStatus(esql); break;
                        case 7: UpdateUserInfo(esql, authorisedUser, 0); break;
                        case 9: usermenu = false; break;
                        default : System.out.println("Unrecognized choice!"); break;
@@ -491,7 +491,6 @@ public class Cafe {
          }
          
          int get_orderid = Integer.parseInt(orderid.get(0)) + 1;
-         
          System.out.print("\tEnter new item name: ");
          String item = in.readLine();
          query = String.format("SELECT M.price FROM Menu M WHERE M.itemName = '%s'", item);
@@ -505,8 +504,7 @@ public class Cafe {
          }
          
          double get_total = Double.parseDouble(total.get(0));
-         
-         query = String.format("INSERT INTO Orders(orderid, login, paid, timeStampRecieved, total) VALUES (%d, %s, false, 0, %f)", get_orderid, authorisedUser, get_total);
+         query = String.format("INSERT INTO Orders(orderid, login, paid, timeStampRecieved, total) VALUES (%d, '%s', false, CURRENT_TIMESTAMP, %f)", get_orderid, authorisedUser, get_total);
 	      esql.executeUpdate(query);
 	      System.out.println("Order " + get_orderid + " added successfully.");
       }

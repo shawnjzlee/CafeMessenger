@@ -1,6 +1,8 @@
 #!/bin/bash
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+set -e
+
 # compile the java program
 javac -d $DIR/../src $DIR/../src/Cafe.java
 
