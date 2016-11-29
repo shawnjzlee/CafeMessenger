@@ -824,7 +824,7 @@ public class Cafe {
          String orderID = in.readLine();
          String query = "SELECT I.status FROM ItemStatus I WHERE I.orderid = ";
          query += orderID + ";";
-	      esql.executeQuery(query);
+	      esql.executeQueryAndPrintResult(query);
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
@@ -834,21 +834,11 @@ public class Cafe {
    public static void ViewCurrentOrder(Cafe esql){
       try {
          String query = "SELECT I.itemName, I.orderid FROM ItemStatus I WHERE I.status <> 'Finished';";
-	     esql.executeQuery(query);
+	     esql.executeQueryAndPrintResult(query);
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
       }
    }//end
-
-   public static void Query6(Cafe esql){
-      try {
-         String query = "";
-	     esql.executeQuery(query);
-      }
-      catch (Exception except) {
-         System.err.println (except.getMessage());
-      }
-   }//end Query6
 
 }//end Cafe
