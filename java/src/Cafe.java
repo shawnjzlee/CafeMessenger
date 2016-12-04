@@ -494,6 +494,9 @@ public class Cafe {
          double get_total = 0;
          int get_orderid = Integer.parseInt(orderid.get(0)) + 1;
          
+         query = String.format("INSERT INTO Orders(orderid, login, paid, timeStampRecieved, total) VALUES (%d, '%s', false, CURRENT_TIMESTAMP, %f)", get_orderid, authorisedUser, get_total);
+         esql.executeUpdate(query);   
+         
          while (item != "q" || item != "Q") {
             System.out.print("\tEnter new item name (q to quit): ");
             if(item == "q" || item == "Q") break;
@@ -504,7 +507,7 @@ public class Cafe {
             System.out.print("\tEnter comments: ");
             String comments = in.readLine();
             // Add ItemStatus
-            String query_status = String.format("INSERT INTO ItemStatus(orderid, itemName, lastUpdated, status, comments) Values (%d, '%s', CURRENT_TIMESTAMP, 'Hasn't Started', '%s')",  get_orderid, item, comments);
+            String query_status = String.format("INSERT INTO ItemStatus(orderid, itemName, lastUpdated, status, comments) VALUES (%d, '%s', CURRENT_TIMESTAMP, 'Hasn't Started', '%s')",  get_orderid, item, comments);
             esql.executeQuery(query_status);
             
             List<String> total = new ArrayList<String>();
