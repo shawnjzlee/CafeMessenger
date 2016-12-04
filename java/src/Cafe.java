@@ -615,7 +615,7 @@ public class Cafe {
          }
          if (!phoneNum.isEmpty()) {
             String query = String.format("UPDATE Users SET phoneNum = '%s' WHERE login = '%s'", phoneNum, authorisedUser);
-   	      esql.executeQuery(query);
+   	      esql.executeUpdate(query);
    	      System.out.println("Updated phone number successfully.");
          }
          else { 
@@ -637,7 +637,7 @@ public class Cafe {
 	      }
 	      if (!password.isEmpty()) {
    	      String query = String.format("UPDATE Users SET password = '%s' WHERE login = '%s'", password, authorisedUser);
-   	      esql.executeQuery(query);
+   	      esql.executeUpdate(query);
    	      System.out.println("Updated password successfully.");
 	      }
 	      else {
@@ -654,7 +654,7 @@ public class Cafe {
 	      }
 	      if (!favItems.isEmpty()) {
    	      String query = String.format("UPDATE Users SET favItems = '%s' WHERE login = '%s'", favItems, authorisedUser);
-   	      esql.executeQuery(query);
+   	      esql.executeUpdate(query);
    	      System.out.println("Updated favorite items successfully.");
 	      }
 	      else {
@@ -672,7 +672,7 @@ public class Cafe {
    	      }
    	      if (!typeOfUser.isEmpty()) {
       	      String query = String.format("UPDATE Users SET type = '%s' WHERE login = '%s'", typeOfUser, authorisedUser);
-      	      esql.executeQuery(query);
+      	      esql.executeUpdate(query);
       	      System.out.println("Updated user type successfully.");
    	      }
    	      else {
