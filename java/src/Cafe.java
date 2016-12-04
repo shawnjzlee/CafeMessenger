@@ -490,23 +490,32 @@ public class Cafe {
            orderid.add(orderidList.get(i).get(0));
          }
          
-         int get_orderid = Integer.parseInt(orderid.get(0)) + 1;
-         System.out.print("\tEnter new item name: ");
-         String item = in.readLine();
-         query = String.format("SELECT M.price FROM Menu M WHERE M.itemName = '%s'", item);
-         
-         List<String> total = new ArrayList<String>();
-         List<List<String>> totalList = new ArrayList<List<String>>();
-        
-         totalList = esql.executeQueryAndReturnResult(query);
-         for(int i = 0; i < totalList.size(); i++) {
-           total.add(totalList.get(i).get(0));
+         String item = null;
+         double get_total = 0;
+         while (item != "q" || item != "Q") {
+            int get_orderid = Integer.parseInt(orderid.get(0)) + 1;
+            System.out.print("\tEnter new item name (q to quit): ");
+            item = in.readLine();
+            String query_item = String.format("SELECT M.price FROM Menu M WHERE M.itemName = '%s'", item);
+            
+            System.out.print("\tEnter comments: ");
+            String comments = in.readLine();
+            // Add ItemStatus
+            String query_status = String.format("INSERT INTO ItemStatus(orderid, itemName, lastUpdated, status, comments) Values (%d, '%s', CURRENT_TIMESTAMP, 'Hasn't Started', '%s')",  get_orderid, item, comments);
+            
+            List<String> total = new ArrayList<String>();
+            List<List<String>> totalList = new ArrayList<List<String>>();
+           
+            totalList = esql.executeQueryAndReturnResult(query_item);
+            for(int i = 0; i < totalList.size(); i++) {
+              total.add(totalList.get(i).get(0));
+            }
+            
+            get_total = get_total + Double.parseDouble(total.get(0));
+            query = String.format("INSERT INTO Orders(orderid, login, paid, timeStampRecieved, total) VALUES (%d, '%s', false, CURRENT_TIMESTAMP, %f)", get_orderid, authorisedUser, get_total);
+   	      esql.executeUpdate(query);
+   	      System.out.println("Order " + get_orderid + " added " + item + " successfully.");
          }
-         
-         double get_total = Double.parseDouble(total.get(0));
-         query = String.format("INSERT INTO Orders(orderid, login, paid, timeStampRecieved, total) VALUES (%d, '%s', false, CURRENT_TIMESTAMP, %f)", get_orderid, authorisedUser, get_total);
-	      esql.executeUpdate(query);
-	      System.out.println("Order " + get_orderid + " added successfully.");
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
