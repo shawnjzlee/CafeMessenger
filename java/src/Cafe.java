@@ -584,10 +584,10 @@ public class Cafe {
       }
    }//end
 
-   public static void ViewOrderHistory(Cafe esql){
+   public static void ViewOrderHistory(Cafe esql, String authorisedUser){
       try {
-         String query = "";
-	      esql.executeQuery(query);
+         String query = String.format("SELECT O.orderid FROM Orders O WHERE O.timeStampRecieved > (now() - interval '24 hours') AND O.login = '%s'", authorisedUser);
+	     esql.executeQuery(query);
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
@@ -830,8 +830,8 @@ public class Cafe {
 
    public static void ViewCurrentOrder(Cafe esql, String authorisedUser, int perm){
       try {
-         String query = String.format("SELECT O.orderid FROM Orders O WHERE O.timeStampRecieved > (now() - interval '24 hours') AND O.paid = false AND O.login = '%s'", authorisedUser);
-	      esql.executeQueryAndPrintResult(query);
+         String query = String.format("SELECT O.orderid FROM Orders O WHERE O.timeStampRecieved > (now() - interval '24 hours') AND O.paid = false");
+	     esql.executeQueryAndPrintResult(query);
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
