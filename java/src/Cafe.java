@@ -522,7 +522,7 @@ public class Cafe {
    	      System.out.println("Order " + get_orderid + " added " + item + " successfully.");
    	      System.out.println("Your current order total is " + get_total);
          }
-         query = String.format("INSERT INTO Orders(orderid, login, paid, timeStampRecieved, total) VALUES (%d, '%s', false, CURRENT_TIMESTAMP, %f)", get_orderid, authorisedUser, get_total);
+         query = String.format("UPDATE Orders SET total = %f WHERE orderid = %d", get_total, get_orderid);
          esql.executeUpdate(query);   
       }
       catch (Exception except) {
