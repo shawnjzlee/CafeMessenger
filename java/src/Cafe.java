@@ -283,7 +283,7 @@ public class Cafe {
                        case 1: BrowseMenuName(esql); break;
                        case 2: BrowseMenuType(esql); break;
                        case 3: AddOrder(esql, authorisedUser); break;
-                       case 4: UpdateOrder(esql); break;
+                       case 4: UpdateOrder(esql, authorisedUser); break;
                        case 5: ViewOrderHistory(esql); break;
                        case 6: ViewOrderStatus(esql); break;
                        case 7: UpdateUserInfo(esql, authorisedUser, 0); break;
@@ -532,11 +532,11 @@ public class Cafe {
       }
    }//end 
 
-   public static void UpdateOrder(Cafe esql){
+   public static void UpdateOrder(Cafe esql, String authorisedUser){
       try {
          System.out.println("Displaying list of non-paid orders: ");
-         String query = "SELECT O.orderid, I.itemName FROM Orders O, ItemStatus I WHERE O.orderid = I.orderid and O.paid = false";
-	 esql.executeQuery(query);
+         String query = String.format("SELECT O.orderid, I.itemName FROM Orders O, ItemStatus I WHERE O.orderid = I.orderid and O.paid = false and O.login = '%s';", authorisedUser);
+	 esql.executeQueryAndPrintResult(query);
 
          System.out.println("Enter the orderid of the order you wish to update: ");
          String orderID = in.readLine();
@@ -834,7 +834,6 @@ public class Cafe {
          query += orderID + ";";
 	 esql.executeQueryAndPrintResult(query);
 
-         System.out.println("Items");
          query = "SELECT I.itemName FROM ItemStatus I WHERE I.orderid = " + orderID + ";";
          esql.executeQueryAndPrintResult(query);
       }
