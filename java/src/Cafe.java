@@ -702,7 +702,6 @@ public class Cafe {
                   try {
                      int selection = Integer.parseInt(search);
                      search = userList.get(selection);
-                     break;
                   }
                   catch (Exception e) {
                   }
@@ -725,7 +724,7 @@ public class Cafe {
          	         typeOfUser = in.readLine();
          	      }
          	      if (!typeOfUser.isEmpty()) {
-            	      String query = String.format("UPDATE Users SET type = '%s' WHERE login = '%s'", typeOfUser, selectedUser.get(0));
+            	      query = String.format("UPDATE Users SET type = '%s' WHERE login = '%s'", typeOfUser, selectedUser.get(0));
             	      esql.executeUpdate(query);
             	      System.out.println("Updated user type successfully.");
          	      }
