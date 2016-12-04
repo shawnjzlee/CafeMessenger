@@ -594,7 +594,7 @@ public class Cafe {
             phoneNum = in.readLine();
          }
          if (!phoneNum.isEmpty()) {
-            String query = String.format("UPDATE USER SET phoneNum = '%s' WHERE login = '%s'", phoneNum, authorisedUser);
+            String query = String.format("UPDATE Users SET phoneNum = '%s' WHERE login = '%s'", phoneNum, authorisedUser);
    	      esql.executeQuery(query);
    	      System.out.println("Updated phone number successfully.");
          }
@@ -616,7 +616,7 @@ public class Cafe {
 	         password = in.readLine();
 	      }
 	      if (!password.isEmpty()) {
-   	      String query = String.format("UPDATE USER SET password = '%s' WHERE login = '%s'", password, authorisedUser);
+   	      String query = String.format("UPDATE Users SET password = '%s' WHERE login = '%s'", password, authorisedUser);
    	      esql.executeQuery(query);
    	      System.out.println("Updated password successfully.");
 	      }
@@ -633,7 +633,7 @@ public class Cafe {
 	         favItems = in.readLine();
 	      }
 	      if (!favItems.isEmpty()) {
-   	      String query = String.format("UPDATE USER SET favItems = '%s' WHERE login = '%s'", favItems, authorisedUser);
+   	      String query = String.format("UPDATE Users SET favItems = '%s' WHERE login = '%s'", favItems, authorisedUser);
    	      esql.executeQuery(query);
    	      System.out.println("Updated favorite items successfully.");
 	      }
@@ -651,7 +651,7 @@ public class Cafe {
    	         typeOfUser = in.readLine();
    	      }
    	      if (!typeOfUser.isEmpty()) {
-      	      String query = String.format("UPDATE USER SET type = '%s' WHERE login = '%s'", typeOfUser, authorisedUser);
+      	      String query = String.format("UPDATE Users SET type = '%s' WHERE login = '%s'", typeOfUser, authorisedUser);
       	      esql.executeQuery(query);
       	      System.out.println("Updated user type successfully.");
    	      }
