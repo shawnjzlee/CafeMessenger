@@ -517,29 +517,16 @@ public class Cafe {
       try {
          System.out.println("Displaying list of non-paid orders: ");
          String query = "SELECT O.orderid, I.itemName FROM Orders O, ItemStatus I WHERE O.orderid = I.orderid and O.paid = false";
-	     esql.executeQuery(query);
+	 esql.executeQuery(query);
 
          System.out.println("Enter the orderid of the order you wish to update: ");
          String orderID = in.readLine();
-
-         System.out.println("1. Update Order Name");
-         System.out.println("2. Update Order Comments");
-
-         int input = Integer.parseInt(in.readLine());
-         switch(input) {
-            case 1:
-               System.out.println("Enter new order name: ");
-               String newOrder = in.readLine();
-               query = "UPDATE ItemStatus SET ItemStatus.itemName = '" + newOrder + "' WHERE ItemStatus.orderid = " + orderID + ";";
-               break;
-            case 2:
-               System.out.println("Enter new comments: ");
-               String newComments = in.readLine();
-               query = "UPDATE ItemStatus SET ItemStatus.comments = '" + newComments + "' WHERE ItemStatus.orderid = " + orderID + ";";
-               break;
-            default: break;
-         }
-	     esql.executeQuery(query);
+         System.out.println("Enter the item name of the order you wish to update:");
+         String orderName = in.readLine();
+         System.out.println("Enter new comments: ");
+         String newComments = in.readLine();
+         query = "UPDATE ItemStatus SET ItemStatus.comments = '" + newComments + "' WHERE ItemStatus.orderid = " + orderID + " AND ItemStatus.itemName = '" + orderName + "';";
+	 esql.executeQuery(query);
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
@@ -584,7 +571,7 @@ public class Cafe {
       }
    }//end
 
-   public static void ViewOrderHistory(Cafe esql, String authorisedUser){
+   public static void ViewOrderHistory(Cafe esql){
       try {
          String query = String.format("SELECT O.orderid FROM Orders O WHERE O.timeStampRecieved > (now() - interval '24 hours') AND O.login = '%s'", authorisedUser);
 	     esql.executeQuery(query);
@@ -830,7 +817,7 @@ public class Cafe {
 
    public static void ViewCurrentOrder(Cafe esql, String authorisedUser, int perm){
       try {
-         String query = String.format("SELECT O.orderid FROM Orders O WHERE O.timeStampRecieved > (now() - interval '24 hours') AND O.paid = false");
+         String query = String.format("SELECT O.orderid, O.timeStampRecieved FROM Orders O WHERE O.timeStampRecieved > (now() - interval '24 hours') AND O.paid = false");
 	     esql.executeQueryAndPrintResult(query);
       }
       catch (Exception except) {
