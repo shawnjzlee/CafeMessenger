@@ -748,8 +748,12 @@ public class Cafe {
                String type = in.readLine();
                System.out.print("\tEnter item price: ");
                String price = in.readLine();
+               System.out.print("\tEnter item description: ");
+               String desc = in.readLine();
+               System.out.print("\tEnter item URL: ");
+               String url = in.readLine();
 
-               query = "INSERT INTO Menu(itemName, type, price, description, imageURLi) VALUES ('" + name + "', '" + type + "', " + price + ", 'No description', + 'Null');";
+               query = String.format("INSERT INTO Menu(itemName, type, price, description, imageURL) VALUES ('%s', '%s', %s, '%s', '%s');", name, type, price, desc, url);
                break;
              case 2:
                System.out.print("\tEnter the name of item to be deleted: ");
@@ -796,7 +800,7 @@ public class Cafe {
              default: break;
            }
 
-	     esql.executeQuery(query);
+	   esql.executeQuery(query);
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
