@@ -507,7 +507,7 @@ public class Cafe {
             System.out.print("\tEnter comments: ");
             String comments = in.readLine();
             // Add ItemStatus
-            String query_status = String.format("INSERT INTO ItemStatus(orderid, itemName, lastUpdated, status, comments) VALUES (%d, '%s', CURRENT_TIMESTAMP, 'Hasn't Started', '%s')",  get_orderid, item, comments);
+            String query_status = String.format("INSERT INTO ItemStatus(orderid, itemName, lastUpdated, status, comments) VALUES (%d, '%s', CURRENT_TIMESTAMP, 'Hasn''t Started', '%s')",  get_orderid, item, comments);
             esql.executeQuery(query_status);
             
             List<String> total = new ArrayList<String>();
