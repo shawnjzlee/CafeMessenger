@@ -500,7 +500,10 @@ public class Cafe {
          while (item != "q" || item != "Q") {
             System.out.print("\tEnter new item name (q to quit): ");
             item = in.readLine();
-            if (item == "q" || item == "Q") break;
+            
+            if (item.equalsIgnoreCase("q")){
+              break;
+            }
             String query_item = String.format("SELECT M.price FROM Menu M WHERE M.itemName = '%s'", item);
             
             System.out.print("\tEnter comments: ");
