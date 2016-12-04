@@ -570,13 +570,17 @@ public class Cafe {
                System.out.println("The order is now paid");
                break;
             case 2:
-               System.out.println("Enter Order ID");
+               System.out.print("Enter Order ID: ");
                orderID = in.readLine();
-               System.out.println("Enter the new order status");
+               query = String.format("SELECT I.itemName, I.status FROM ItemStatus I WHERE I.orderid = %s", orderID);
+               esql.executeQueryAndPrintResult(query);
+               System.out.print("Enter the item you wish to update: ");
+               String itemName = in.readLine();
+               System.out.print("Enter the new order status: ");
                String orderStatus = in.readLine();
-               query = "UPDATE ItemStatus SET ItemStatus.status = '";
-               query += orderStatus + "' FROM ItemStatus, Orders WHERE Orders.orderid = ";
-               query += orderID + ";";
+               
+               if(orderStatus.equalsIgnoreCase("Hasn't Started")) orderStatus = "Hasn''t Started";
+               query = String.format("UPDATE ItemStatus SET status = '%s' WHERE orderid = %s and itemName = '%s'", orderStatus, orderID, itemName);
                System.out.println("The order status has been updated");
                esql.executeUpdate(query);
                break;
