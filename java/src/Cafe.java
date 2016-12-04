@@ -535,7 +535,7 @@ public class Cafe {
    public static void UpdateOrder(Cafe esql, String authorisedUser){
       try {
          System.out.println("Displaying list of non-paid orders: ");
-         String query = String.format("SELECT O.orderid, I.itemName FROM Orders O, ItemStatus I WHERE O.orderid = I.orderid and O.paid = false and O.login = '%s';", authorisedUser);
+         String query = String.format("SELECT O.orderid, I.itemName, I.comments FROM Orders O, ItemStatus I WHERE O.orderid = I.orderid and O.paid = false and O.login = '%s';", authorisedUser);
 	 esql.executeQueryAndPrintResult(query);
 
          System.out.println("Enter the orderid of the order you wish to update: ");
@@ -544,7 +544,7 @@ public class Cafe {
          String orderName = in.readLine();
          System.out.println("Enter new comments: ");
          String newComments = in.readLine();
-         query = "UPDATE ItemStatus SET ItemStatus.comments = '" + newComments + "' WHERE ItemStatus.orderid = " + orderID + " AND ItemStatus.itemName = '" + orderName + "';";
+         query = "UPDATE ItemStatus SET comments = '" + newComments + "' WHERE orderid = " + orderID + " AND itemName = '" + orderName + "';";
 	 esql.executeQuery(query);
       }
       catch (Exception except) {
