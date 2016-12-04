@@ -492,8 +492,9 @@ public class Cafe {
          
          String item = null;
          double get_total = 0;
+         int get_orderid = Integer.parseInt(orderid.get(0)) + 1;
+         
          while (item != "q" || item != "Q") {
-            int get_orderid = Integer.parseInt(orderid.get(0)) + 1;
             System.out.print("\tEnter new item name (q to quit): ");
             item = in.readLine();
             String query_item = String.format("SELECT M.price FROM Menu M WHERE M.itemName = '%s'", item);
@@ -512,10 +513,11 @@ public class Cafe {
             }
             
             get_total = get_total + Double.parseDouble(total.get(0));
-            query = String.format("INSERT INTO Orders(orderid, login, paid, timeStampRecieved, total) VALUES (%d, '%s', false, CURRENT_TIMESTAMP, %f)", get_orderid, authorisedUser, get_total);
    	      esql.executeUpdate(query);
    	      System.out.println("Order " + get_orderid + " added " + item + " successfully.");
+   	      System.out.println("Your current order total is " + get_total);
          }
+         query = String.format("INSERT INTO Orders(orderid, login, paid, timeStampRecieved, total) VALUES (%d, '%s', false, CURRENT_TIMESTAMP, %f)", get_orderid, authorisedUser, get_total);
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
