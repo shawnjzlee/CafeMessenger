@@ -819,7 +819,7 @@ public class Cafe {
              default: break;
            }
 
-	   esql.executeQuery(query);
+	   esql.executeUpdate(query);
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
