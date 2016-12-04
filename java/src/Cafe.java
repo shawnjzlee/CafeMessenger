@@ -545,7 +545,7 @@ public class Cafe {
          System.out.println("Enter new comments: ");
          String newComments = in.readLine();
          query = "UPDATE ItemStatus SET comments = '" + newComments + "' WHERE orderid = " + orderID + " AND itemName = '" + orderName + "';";
-	 esql.executeQuery(query);
+	      esql.executeUpdate(query);
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
@@ -566,7 +566,7 @@ public class Cafe {
                orderID = in.readLine();
                query = "UPDATE Orders SET paid = TRUE WHERE orderid = ";
                query += orderID + ";";
-               esql.executeQuery(query);
+               esql.executeUpdate(query);
                System.out.println("The order is now paid");
                break;
             case 2:
@@ -578,7 +578,7 @@ public class Cafe {
                query += orderStatus + "' FROM ItemStatus, Orders WHERE Orders.orderid = ";
                query += orderID + ";";
                System.out.println("The order status has been updated");
-               esql.executeQuery(query);
+               esql.executeUpdate(query);
                break;
             default:
                System.out.println("Your choice is invalid");
