@@ -545,7 +545,7 @@ public class Cafe {
             case 1:
                System.out.println("Enter Order ID");
                orderID = in.readLine();
-               query = "UPDATE Orders SET Orders.paid = TRUE WHERE Orders.orderid = ";
+               query = "UPDATE Orders SET paid = TRUE WHERE orderid = ";
                query += orderID + ";";
                esql.executeQuery(query);
                System.out.println("The order is now paid");
@@ -573,8 +573,9 @@ public class Cafe {
 
    public static void ViewOrderHistory(Cafe esql){
       try {
-         String query = String.format("SELECT O.orderid FROM Orders O WHERE O.timeStampRecieved > (now() - interval '24 hours') AND O.login = '%s'", authorisedUser);
-	     esql.executeQuery(query);
+         String query = String.format("SELECT O.orderid, O.timeStampRecieved FROM (SELECT * FROM Orders ORDER BY timeStampRecieved DESC LIMIT 5) O WHERE O.login = '%s'", authorisedUser);
+         System.out.println("Your 5 most recent Orders: ");
+	 esql.executeQueryAndPrintResult(query);
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
@@ -683,7 +684,7 @@ public class Cafe {
                case 2:
                   System.out.println("Please enter a user's login ID to edit: ");
                   String search = in.readLine();
-                  String query = "SELECT DISTINCT(login) FROM USER WHERE login LIKE '%" + search + "%'";
+                  String query = "SELECT DISTINCT(login) FROM Users WHERE login LIKE '%" + search + "%'";
                   
                   List<String> userList = new ArrayList<String>();
                   List<List<String>> users = new ArrayList<List<String>>();
@@ -704,7 +705,7 @@ public class Cafe {
                   }
                   catch (Exception e) {
                   }
-                  query = "SELECT login FROM User WHERE login = '" + search + "';";
+                  query = "SELECT login FROM Users WHERE login = '" + search + "';";
                   
                   List<String> selectedUser = new ArrayList<String>();
                   List<List<String>> selectedUserList = new ArrayList<List<String>>();
@@ -808,7 +809,11 @@ public class Cafe {
          String orderID = in.readLine();
          String query = "SELECT * FROM Orders WHERE orderid = ";
          query += orderID + ";";
-	      esql.executeQueryAndPrintResult(query);
+	 esql.executeQueryAndPrintResult(query);
+
+         System.out.println("Items");
+         query = "SELECT I.itemName FROM ItemStatus I WHERE I.orderid = " + orderID + ";";
+         esql.executeQueryAndPrintResult(query);
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
