@@ -496,6 +496,8 @@ public class Cafe {
          
          while (item != "q" || item != "Q") {
             System.out.print("\tEnter new item name (q to quit): ");
+            if(item == "q" || item == "Q") break;
+            
             item = in.readLine();
             String query_item = String.format("SELECT M.price FROM Menu M WHERE M.itemName = '%s'", item);
             
@@ -503,6 +505,7 @@ public class Cafe {
             String comments = in.readLine();
             // Add ItemStatus
             String query_status = String.format("INSERT INTO ItemStatus(orderid, itemName, lastUpdated, status, comments) Values (%d, '%s', CURRENT_TIMESTAMP, 'Hasn't Started', '%s')",  get_orderid, item, comments);
+            esql.executeQuery(query_status);
             
             List<String> total = new ArrayList<String>();
             List<List<String>> totalList = new ArrayList<List<String>>();
@@ -513,11 +516,11 @@ public class Cafe {
             }
             
             get_total = get_total + Double.parseDouble(total.get(0));
-   	      esql.executeUpdate(query);
    	      System.out.println("Order " + get_orderid + " added " + item + " successfully.");
    	      System.out.println("Your current order total is " + get_total);
          }
          query = String.format("INSERT INTO Orders(orderid, login, paid, timeStampRecieved, total) VALUES (%d, '%s', false, CURRENT_TIMESTAMP, %f)", get_orderid, authorisedUser, get_total);
+         esql.executeUpdate(query);   
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
