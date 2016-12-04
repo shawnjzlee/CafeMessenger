@@ -661,24 +661,6 @@ public class Cafe {
 	         System.out.println("Favorite items not changed.");
 	      }
 	      
-	      if(perm == 1) {
-   	      /* Type of User */
-   	      System.out.println("Please update the user's type: ");
-   	      String typeOfUser = in.readLine();
-   	      while (typeOfUser.length() > 8) {
-   	         System.out.print("Not a valid user type. ");
-   	         System.out.println("Please update the user's type: ");
-   	         typeOfUser = in.readLine();
-   	      }
-   	      if (!typeOfUser.isEmpty()) {
-      	      String query = String.format("UPDATE Users SET type = '%s' WHERE login = '%s'", typeOfUser, authorisedUser);
-      	      esql.executeUpdate(query);
-      	      System.out.println("Updated user type successfully.");
-   	      }
-   	      else {
-   	         System.out.println("User type not changed.");
-   	      }
-	      }
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
@@ -734,7 +716,22 @@ public class Cafe {
                      selectedUser.add(selectedUserList.get(i).get(0));
                   }
 
-                  UpdateUserInfo(esql, selectedUser.get(0), 1);
+                  /* Type of User */
+         	      System.out.println("Please update the user's type: ");
+         	      String typeOfUser = in.readLine();
+         	      while (typeOfUser.length() > 8) {
+         	         System.out.print("Not a valid user type. ");
+         	         System.out.println("Please update the user's type: ");
+         	         typeOfUser = in.readLine();
+         	      }
+         	      if (!typeOfUser.isEmpty()) {
+            	      String query = String.format("UPDATE Users SET type = '%s' WHERE login = '%s'", typeOfUser, selectedUser.get(0));
+            	      esql.executeUpdate(query);
+            	      System.out.println("Updated user type successfully.");
+         	      }
+         	      else {
+         	         System.out.println("User type not changed.");
+         	      }
                   break;
                   
                case 3:
