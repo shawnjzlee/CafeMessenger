@@ -270,6 +270,7 @@ public class Cafe {
 		  while(usermenu) {
                     System.out.println("MAIN MENU");
                     System.out.println("---------");
+                    System.out.println("0. Browse full Menu");
                     System.out.println("1. Browse Menu by ItemName");
                     System.out.println("2. Browse Menu by Type");
                     System.out.println("3. Add Order");
@@ -281,6 +282,7 @@ public class Cafe {
                     System.out.println(".........................");
                     System.out.println("9. Log out");
                       switch (readChoice()){
+                       case 0: BrowseMenu(esql); break;
                        case 1: BrowseMenuName(esql); break;
                        case 2: BrowseMenuType(esql); break;
                        case 3: AddOrder(esql, authorisedUser); break;
@@ -862,7 +864,16 @@ public class Cafe {
        catch (Exception except) {
           System.err.println(except.getMessage());
        }
+   }
 
+   public static void BrowseMenu(Cafe esql){
+       try {
+          String query = String.format("SELECT * FROM Menu");
+          esql.executeQueryAndPrintResult(query);
+       }
+       catch (Exception except) {
+          System.err.println(except.getMessage());
+       }
 
    }
 
