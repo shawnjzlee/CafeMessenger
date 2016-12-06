@@ -494,7 +494,12 @@ public class Cafe {
          catch (Exception e) {
          }
          
-         query = "SELECT " + primaryKey[searchType] + " FROM " + table[searchType] + " WHERE " + primaryKey[searchType] + " = '" + search + "';";
+         if(searchType != 2) {
+            query = "SELECT " + primaryKey[searchType] + " FROM " + table[searchType] + " WHERE " + primaryKey[searchType] + " = '" + search + "';";
+         }
+         else {
+            query = "SELECT " + primaryKey[searchType] + " FROM " + table[searchType] + " WHERE " + primaryKey[searchType] + " = " + search + ";";
+         }
          
          List<String> getResult = new ArrayList<String>();
          List<List<String>> getResultList = new ArrayList<List<String>>();
@@ -596,8 +601,7 @@ public class Cafe {
          String query = String.format("SELECT O.orderid, I.itemName, I.comments FROM Orders O, ItemStatus I WHERE O.orderid = I.orderid and O.paid = false and O.login = '%s';", authorisedUser);
 	 esql.executeQueryAndPrintResult(query);
 
-         System.out.println("Enter the orderid of the order you wish to update: ");
-         String orderID = in.readLine();
+         String orderID = getSearchResultsAndPrintQuery(esql, 2);
          System.out.println("Enter the item name of the order you wish to update:");
          String orderName = in.readLine();
          System.out.println("Enter new comments: ");
@@ -619,8 +623,7 @@ public class Cafe {
          String orderID;
          String query;
 
-         System.out.println("Enter Order ID");
-         orderID = in.readLine();
+         orderID = getSearchResultsAndPrintQuery(esql, 2);
          switch(input) {
             case 1:
                query = "UPDATE Orders SET paid = TRUE WHERE orderid = ";
@@ -855,8 +858,7 @@ public class Cafe {
 
    public static void ViewOrderStatus(Cafe esql){
       try {
-         System.out.print("\tEnter Order ID: ");
-         String orderID = in.readLine(); 
+         String orderID = getSearchResultsAndPrintQuery(esql, 2);
          String query = "SELECT * FROM Orders WHERE orderid = ";
          query += orderID + ";";
 	 esql.executeQueryAndPrintResult(query);
