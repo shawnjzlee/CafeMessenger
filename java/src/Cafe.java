@@ -681,6 +681,45 @@ public class Cafe {
       }
    }//end
 
+   public static String getSearchResultsAndPrintQuery(Cafe esql, int searchType) {
+      try {
+         String[] searchString = { "a user's login ID", "an item name", "an order id" };
+         String[] primaryKey = { "login", "itemName", "orderID" };
+         String[] table = { "Users", "Menu", "Orders"};
+         
+         System.out.println("Please enter " + searchString[searchType] + " to edit: ");
+         String search = in.readLine();
+         String query = String.format("SELECT DISTINCT(%s) FROM Users WHERE login LIKE '%" + search + "%'", primaryKey[searchType]);
+         
+         List<String> results = new ArrayList<String>();
+         List<List<String>> resultsList = new ArrayList<List<String>>();
+         
+         resultsList = esql.executeQueryAndReturnResult(query);
+         for(int i = 0; i < resultsList.size(); i++) {
+            results.add(resultsList.get(i).get(0));
+            System.out.println(i + ". " + resultsList.get(i).get(0));
+         }
+         
+         System.out.println("\n" + results.size() + " results found. Please enter the number from the list above, or a login ID: ");
+         search = in.readLine();
+   
+         try {
+            int selection = Integer.parseInt(search);
+            search = results.get(selection);
+         }
+         catch (Exception e) {
+         }
+         
+         query = "SELECT " + primaryKey[searchType] + " FROM " + table[searchType] + " WHERE " + primaryKey[searchType] + " = '" + search + "';";
+         
+         return query;
+      }
+      catch (Exception except) {
+         System.err.println (except.getMessage());
+      }
+      return null;
+   }
+
    public static void ManagerUpdateUserInfo(Cafe esql, String authorisedUser){
       try {
          boolean pending_selection = true;
@@ -697,29 +736,7 @@ public class Cafe {
                   break;
                   
                case 2:
-                  System.out.println("Please enter a user's login ID to edit: ");
-                  String search = in.readLine();
-                  String query = "SELECT DISTINCT(login) FROM Users WHERE login LIKE '%" + search + "%'";
-                  
-                  List<String> userList = new ArrayList<String>();
-                  List<List<String>> users = new ArrayList<List<String>>();
-                  
-                  users = esql.executeQueryAndReturnResult(query);
-                  for(int i = 0; i < users.size(); i++) {
-                     userList.add(users.get(i).get(0));
-                     System.out.println(i + ". " + users.get(i).get(0));
-                  }
-                  
-                  System.out.println("\n" + userList.size() + " results found. Please enter the number from the list above, or a login ID: ");
-                  search = in.readLine();
-
-                  try {
-                     int selection = Integer.parseInt(search);
-                     search = userList.get(selection);
-                  }
-                  catch (Exception e) {
-                  }
-                  query = "SELECT login FROM Users WHERE login = '" + search + "';";
+                  String query = getSearchResultsAndPrintQuery(esql, 0);
                   
                   List<String> selectedUser = new ArrayList<String>();
                   List<List<String>> selectedUserList = new ArrayList<List<String>>();
