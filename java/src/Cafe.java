@@ -463,10 +463,58 @@ public class Cafe {
       return "Employee";
    }
 
+   public static String getSearchResultsAndPrintQuery(Cafe esql, int searchType) {
+      try {
+         String[] searchString = { "a user's login ID", "an item name", "an order id" };
+         String[] primaryKey = { "login", "itemName", "orderID" };
+         String[] table = { "Users", "Menu", "Orders"};
+         
+         System.out.println("Please enter " + searchString[searchType] + ": ");
+         String search = in.readLine();
+         String query = "SELECT DISTINCT(" + primaryKey[searchType] + ") FROM " + 
+                        table[searchType] + " WHERE " + primaryKey[searchType] + 
+                        " LIKE '%" + search + "%'";
+         
+         List<String> results = new ArrayList<String>();
+         List<List<String>> resultsList = new ArrayList<List<String>>();
+         
+         resultsList = esql.executeQueryAndReturnResult(query);
+         for(int i = 0; i < resultsList.size(); i++) {
+            results.add(resultsList.get(i).get(0));
+            System.out.println(i + ". " + resultsList.get(i).get(0));
+         }
+         
+         System.out.println("\n" + results.size() + " results found. Please enter the number from the list above, or a login ID: ");
+         search = in.readLine();
+   
+         try {
+            int selection = Integer.parseInt(search);
+            search = results.get(selection);
+         }
+         catch (Exception e) {
+         }
+         
+         query = "SELECT " + primaryKey[searchType] + " FROM " + table[searchType] + " WHERE " + primaryKey[searchType] + " = '" + search + "';";
+         
+         List<String> getResult = new ArrayList<String>();
+         List<List<String>> getResultList = new ArrayList<List<String>>();
+         
+         getResultList = esql.executeQueryAndReturnResult(query);
+         for(int i = 0; i < getResultList.size(); i++) {
+            getResult.add(getResultList.get(i).get(0));
+         }
+         
+         return getResult.get(0);
+      }
+      catch (Exception except) {
+         System.err.println (except.getMessage());
+      }
+      return null;
+   }
+
    public static void BrowseMenuName(Cafe esql){
       try {
-         System.out.print("\tEnter item name: ");
-         String name = in.readLine();
+         String name = getSearchResultsAndPrintQuery(esql, 1);
          String query = "SELECT M.itemName, M.price, M.description FROM Menu M WHERE M.itemName = '";
          query += name + "';";
 	      esql.executeQueryAndPrintResult(query);
@@ -546,10 +594,10 @@ public class Cafe {
       try {
          System.out.println("Displaying list of non-paid orders: ");
          String query = String.format("SELECT O.orderid, I.itemName, I.comments FROM Orders O, ItemStatus I WHERE O.orderid = I.orderid and O.paid = false and O.login = '%s';", authorisedUser);
-	 esql.executeQueryAndPrintResult(query);
+	      esql.executeQueryAndPrintResult(query);
 
          System.out.println("Enter the orderid of the order you wish to update: ");
-         String orderID = in.readLine();
+         String orderID = getSearchResultsAndPrintQuery(esql, 2);
          System.out.println("Enter the item name of the order you wish to update:");
          String orderName = in.readLine();
          System.out.println("Enter new comments: ");
@@ -572,16 +620,14 @@ public class Cafe {
          String query;
          switch(input) {
             case 1:
-               System.out.println("Enter Order ID");
-               orderID = in.readLine();
+               orderID = getSearchResultsAndPrintQuery(esql, 2);
                query = "UPDATE Orders SET paid = TRUE WHERE orderid = ";
                query += orderID + ";";
                esql.executeUpdate(query);
                System.out.println("The order is now paid");
                break;
             case 2:
-               System.out.print("Enter Order ID: ");
-               orderID = in.readLine();
+               orderID = getSearchResultsAndPrintQuery(esql, 2);
                query = String.format("SELECT I.itemName, I.status FROM ItemStatus I WHERE I.orderid = %s", orderID);
                esql.executeQueryAndPrintResult(query);
                System.out.print("Enter the item you wish to update: ");
@@ -608,7 +654,7 @@ public class Cafe {
       try {
          String query = String.format("SELECT O.orderid, O.timeStampRecieved FROM (SELECT * FROM Orders ORDER BY timeStampRecieved DESC LIMIT 5) O WHERE O.login = '%s'", authorisedUser);
          System.out.println("Your 5 most recent Orders: ");
-	 esql.executeQueryAndPrintResult(query);
+	      esql.executeQueryAndPrintResult(query);
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
@@ -681,47 +727,6 @@ public class Cafe {
       }
    }//end
 
-   public static String getSearchResultsAndPrintQuery(Cafe esql, int searchType) {
-      try {
-         String[] searchString = { "a user's login ID", "an item name", "an order id" };
-         String[] primaryKey = { "login", "itemName", "orderID" };
-         String[] table = { "Users", "Menu", "Orders"};
-         
-         System.out.println("Please enter " + searchString[searchType] + " to edit: ");
-         String search = in.readLine();
-         String query = "SELECT DISTINCT(" + primaryKey[searchType] + ") FROM " + 
-                        table[searchType] + " WHERE " + primaryKey[searchType] + 
-                        " LIKE '%" + search + "%'";
-         
-         List<String> results = new ArrayList<String>();
-         List<List<String>> resultsList = new ArrayList<List<String>>();
-         
-         resultsList = esql.executeQueryAndReturnResult(query);
-         for(int i = 0; i < resultsList.size(); i++) {
-            results.add(resultsList.get(i).get(0));
-            System.out.println(i + ". " + resultsList.get(i).get(0));
-         }
-         
-         System.out.println("\n" + results.size() + " results found. Please enter the number from the list above, or a login ID: ");
-         search = in.readLine();
-   
-         try {
-            int selection = Integer.parseInt(search);
-            search = results.get(selection);
-         }
-         catch (Exception e) {
-         }
-         
-         query = "SELECT " + primaryKey[searchType] + " FROM " + table[searchType] + " WHERE " + primaryKey[searchType] + " = '" + search + "';";
-         
-         return query;
-      }
-      catch (Exception except) {
-         System.err.println (except.getMessage());
-      }
-      return null;
-   }
-
    public static void ManagerUpdateUserInfo(Cafe esql, String authorisedUser){
       try {
          boolean pending_selection = true;
@@ -739,15 +744,7 @@ public class Cafe {
                   break;
                   
                case 2:
-                  String query = getSearchResultsAndPrintQuery(esql, 0);
-                  
-                  List<String> selectedUser = new ArrayList<String>();
-                  List<List<String>> selectedUserList = new ArrayList<List<String>>();
-                  
-                  selectedUserList = esql.executeQueryAndReturnResult(query);
-                  for(int i = 0; i < selectedUserList.size(); i++) {
-                     selectedUser.add(selectedUserList.get(i).get(0));
-                  }
+                  String user = getSearchResultsAndPrintQuery(esql, 0);
 
                   /* Type of User */
          	      System.out.println("Please update the user's type: ");
@@ -758,7 +755,7 @@ public class Cafe {
          	         typeOfUser = in.readLine();
          	      }
          	      if (!typeOfUser.isEmpty()) {
-            	      query = String.format("UPDATE Users SET type = '%s' WHERE login = '%s'", typeOfUser, selectedUser.get(0));
+            	      String query = String.format("UPDATE Users SET type = '%s' WHERE login = '%s'", typeOfUser, user);
             	      esql.executeUpdate(query);
             	      System.out.println("Updated user type successfully.");
          	      }
@@ -806,13 +803,11 @@ public class Cafe {
                query = String.format("INSERT INTO Menu(itemName, type, price, description, imageURL) VALUES ('%s', '%s', %s, '%s', '%s');", name, type, price, desc, url);
                break;
              case 2:
-               System.out.print("\tEnter the name of item to be deleted: ");
-               name = in.readLine();
+               name = getSearchResultsAndPrintQuery(esql, 1);
                query = "DELETE FROM Menu WHERE itemName = '" + name + "';";
                break;
              case 3:
-               System.out.print("\tEnter the name of item to be updated: "); 
-               name = in.readLine();
+               name = getSearchResultsAndPrintQuery(esql, 1);
                System.out.println("1. Update item name");
                System.out.println("2. Update item type");
                System.out.println("3. Update item price");
@@ -859,8 +854,7 @@ public class Cafe {
 
    public static void ViewOrderStatus(Cafe esql){
       try {
-         System.out.print("\tEnter Order ID: ");
-         String orderID = in.readLine();
+         String orderID = getSearchResultsAndPrintQuery(esql, 2);
          String query = "SELECT * FROM Orders WHERE orderid = ";
          query += orderID + ";";
 	 esql.executeQueryAndPrintResult(query);
@@ -876,7 +870,7 @@ public class Cafe {
    public static void ViewCurrentOrder(Cafe esql, String authorisedUser, int perm){
       try {
          String query = String.format("SELECT O.orderid, O.timeStampRecieved FROM Orders O WHERE O.timeStampRecieved > (now() - interval '24 hours') AND O.paid = false");
-	     esql.executeQueryAndPrintResult(query);
+	      esql.executeQueryAndPrintResult(query);
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
