@@ -277,6 +277,7 @@ public class Cafe {
                     System.out.println("5. View Order History");
                     System.out.println("6. View Order Status");
                     System.out.println("7. Update User Info");
+                    System.out.println("8. View User Info");
                     System.out.println(".........................");
                     System.out.println("9. Log out");
                       switch (readChoice()){
@@ -287,6 +288,7 @@ public class Cafe {
                        case 5: ViewOrderHistory(esql); break;
                        case 6: ViewOrderStatus(esql); break;
                        case 7: UpdateUserInfo(esql, authorisedUser, 0); break;
+                       case 8: ViewUserInfo(esql, authorisedUser); break;
                        case 9: usermenu = false; break;
                        default : System.out.println("Unrecognized choice!"); break;
 		      }//end switch
@@ -851,5 +853,17 @@ public class Cafe {
          System.err.println (except.getMessage());
       }
    }//end
+
+   public static void ViewUserInfo(Cafe esql, String authorisedUser){
+       try {
+          String query = String.format("SELECT U.login, U.phoneNum, U.favItems, U.type FROM Users U WHERE U.login = '%s'", authorisedUser);
+          esql.executeQueryAndPrintResult(query);
+       }
+       catch (Exception except) {
+          System.err.println(except.getMessage());
+       }
+
+
+   }
 
 }//end Cafe
