@@ -689,7 +689,9 @@ public class Cafe {
          
          System.out.println("Please enter " + searchString[searchType] + " to edit: ");
          String search = in.readLine();
-         String query = String.format("SELECT DISTINCT(%s) FROM Users WHERE login LIKE '%" + search + "%'", primaryKey[searchType]);
+         String query = "SELECT DISTINCT(" + primaryKey[searchType] + ") FROM " + 
+                        table[searchType] + " WHERE " + primaryKey[searchType] + 
+                        " LIKE '%" + search + "%'";
          
          List<String> results = new ArrayList<String>();
          List<List<String>> resultsList = new ArrayList<List<String>>();
