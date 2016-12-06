@@ -594,10 +594,10 @@ public class Cafe {
       try {
          System.out.println("Displaying list of non-paid orders: ");
          String query = String.format("SELECT O.orderid, I.itemName, I.comments FROM Orders O, ItemStatus I WHERE O.orderid = I.orderid and O.paid = false and O.login = '%s';", authorisedUser);
-	      esql.executeQueryAndPrintResult(query);
+	 esql.executeQueryAndPrintResult(query);
 
          System.out.println("Enter the orderid of the order you wish to update: ");
-         String orderID = getSearchResultsAndPrintQuery(esql, 2);
+         String orderID = in.readLine();
          System.out.println("Enter the item name of the order you wish to update:");
          String orderName = in.readLine();
          System.out.println("Enter new comments: ");
@@ -618,16 +618,17 @@ public class Cafe {
 
          String orderID;
          String query;
+
+         System.out.println("Enter Order ID");
+         orderID = in.readLine();
          switch(input) {
             case 1:
-               orderID = getSearchResultsAndPrintQuery(esql, 2);
                query = "UPDATE Orders SET paid = TRUE WHERE orderid = ";
                query += orderID + ";";
                esql.executeUpdate(query);
                System.out.println("The order is now paid");
                break;
             case 2:
-               orderID = getSearchResultsAndPrintQuery(esql, 2);
                query = String.format("SELECT I.itemName, I.status FROM ItemStatus I WHERE I.orderid = %s", orderID);
                esql.executeQueryAndPrintResult(query);
                System.out.print("Enter the item you wish to update: ");
@@ -654,7 +655,7 @@ public class Cafe {
       try {
          String query = String.format("SELECT O.orderid, O.timeStampRecieved FROM (SELECT * FROM Orders ORDER BY timeStampRecieved DESC LIMIT 5) O WHERE O.login = '%s'", authorisedUser);
          System.out.println("Your 5 most recent Orders: ");
-	      esql.executeQueryAndPrintResult(query);
+	 esql.executeQueryAndPrintResult(query);
       }
       catch (Exception except) {
          System.err.println (except.getMessage());
@@ -854,7 +855,8 @@ public class Cafe {
 
    public static void ViewOrderStatus(Cafe esql){
       try {
-         String orderID = getSearchResultsAndPrintQuery(esql, 2);
+         System.out.print("\tEnter Order ID: ");
+         String orderID = in.readLine(); 
          String query = "SELECT * FROM Orders WHERE orderid = ";
          query += orderID + ";";
 	 esql.executeQueryAndPrintResult(query);
