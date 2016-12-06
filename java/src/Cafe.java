@@ -299,6 +299,7 @@ public class Cafe {
 		  while(usermenu) {
                     System.out.println("MAIN MENU");
                     System.out.println("---------");
+                    System.out.println("0. Browse full Menu");
                     System.out.println("1. Browse Menu by ItemName");
                     System.out.println("2. Browse Menu by Type");
                     System.out.println("3. Add Order");
@@ -306,9 +307,11 @@ public class Cafe {
                     System.out.println("5. View Current Orders");
                     System.out.println("6. View Order Status");
                     System.out.println("7. Update User Info");
+                    System.out.println("8. View User Info");
                     System.out.println(".........................");
                     System.out.println("9. Log out");
                       switch (readChoice()){
+                       case 0: BrowseMenu(esql); break;
                        case 1: BrowseMenuName(esql); break;
                        case 2: BrowseMenuType(esql); break;
                        case 3: AddOrder(esql, authorisedUser); break;
@@ -316,6 +319,7 @@ public class Cafe {
                        case 5: ViewCurrentOrder(esql, authorisedUser, 1); break;
                        case 6: ViewOrderStatus(esql); break;
                        case 7: UpdateUserInfo(esql, authorisedUser, 0); break;
+                       case 8: ViewUserInfo(esql, authorisedUser); break;
                        case 9: usermenu = false; break;
                        default : System.out.println("Unrecognized choice!"); break;
 		      }//end switch
@@ -324,6 +328,7 @@ public class Cafe {
 		  while(usermenu) {
                     System.out.println("MAIN MENU");
                     System.out.println("---------");
+                    System.out.println("0. Browse full Menu");
                     System.out.println("1. Browse Menu by ItemName");
                     System.out.println("2. Browse Menu by Type");
                     System.out.println("3. Add Order");
@@ -335,6 +340,7 @@ public class Cafe {
                     System.out.println(".........................");
                     System.out.println("9. Log out");
                       switch (readChoice()){
+                       case 0: BrowseMenu(esql); break;
                        case 1: BrowseMenuName(esql); break;
                        case 2: BrowseMenuType(esql); break;
                        case 3: AddOrder(esql, authorisedUser); break;
