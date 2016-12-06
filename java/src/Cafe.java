@@ -735,6 +735,7 @@ public class Cafe {
             switch (readChoice()) {
                case 1:
                   UpdateUserInfo(esql, authorisedUser, 0);
+                  pending_selection = false;
                   break;
                   
                case 2:
@@ -764,6 +765,7 @@ public class Cafe {
          	      else {
          	         System.out.println("User type not changed.");
          	      }
+         	      pending_selection = false;
                   break;
                   
                case 3:
